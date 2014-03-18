@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block content %}
+{% for bug in project.bugs %}
+	{{ bug.title }}
+	{{ bug.body }}
+{% endfor %}
+{% endblock %}

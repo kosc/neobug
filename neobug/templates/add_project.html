@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+	<form action="/add_project" method="POST">
+		{{ render_field(form.name) }}
+		{{ render_field(form.description) }}
+		<input type="submit" value="Add Project" />
+	</form>
+{% endblock %}

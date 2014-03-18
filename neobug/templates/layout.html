@@ -6,7 +6,8 @@
 	</head>
 	<body>
 		{% if session.logged_in %}
-			<a href="/logout">Logout</a>
+			You are logged in as {{ session.user_id }} 
+			<a href="/logout">Logout</a><br />
 		{% else %}
 			<a href="/register">Register</a>
 			<a href="/login">Login</a>

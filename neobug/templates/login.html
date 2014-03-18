@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
 {% block content %}
 	{{ message }}
-	{% include "login_form.html" %}
+	<form action="/login" method="POST">
+		{{ render_field(form.username) }}
+		{{ render_field(form.password) }}
+		<input type="submit" value="Login" />
+	</form>
 {% endblock %}

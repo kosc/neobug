@@ -1,0 +1,5 @@
+{% for project in projects %}
+	<dt>{{ project.name }}</dt>
+	<dd>{{ project.description }}</dd>
+{% endfor %}
+<a href="/add_project">Add Project</a>
