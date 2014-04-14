@@ -11,6 +11,7 @@ class Project(db.Document):
 
 
 class Bug(db.EmbeddedDocument):
+    bug_id = db.ObjectIdField(unique=True, primary_key=True, required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
     body = db.StringField(required=True)

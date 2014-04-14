@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+	{{ project.name }}<br />
+	<p>
+		{{ project.description }}
+	</p>
+	{% if project.bugs %}
+		<div class="bugs">
+		{% for bug in project.bugs %}
+			<div class="bug">
+				<a href="/project/{{ project.id }}/bug{{ bug.bug_id }}">{{ bug.title }}</a> <span class="author">{{ bug.author }}</span>
+				<span class="created_at">{{ bug.created_at }}</span>
+				<hr />
+				<p>{{ bug.body }}</p>
+			</div>
+		{% endfor %}
+		</div>
+	{% endif %}
+	{% if session.logged_in %}
+		<p>
+			Add bug: <br />
+			<form action="/project/{{ project.id }}" method="POST" >
+				{{ render_field(form.title) }}
+				{{ render_field(form.body) }}
+				{{ form.csrf_token }}
+				<input type="submit" value="Add Bug" />
+			</form>
+		</p>
+	{% endif %}
+{% endblock %}

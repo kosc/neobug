@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 {% for bug in project.bugs %}
-	{{ bug.title }}
-	{{ bug.body }}
+	<div class="bug">
+		{{ bug.title }}
+		{{ bug.body }}
+	</div>
 {% endfor %}
 {% endblock %}

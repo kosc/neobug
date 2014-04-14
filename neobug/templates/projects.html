@@ -1,5 +1,7 @@
 {% for project in projects %}
-	<dt>{{ project.name }}</dt>
-	<dd>{{ project.description }}</dd>
+	<div class="project">
+		<dt><a href="/project/{{ project.id }}">{{ project.name }}</a></dt>
+		<dd>{{ project.description }}</dd>
+	</div>
 {% endfor %}
 <a href="/add_project">Add Project</a>

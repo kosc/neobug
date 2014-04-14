@@ -1,5 +1,6 @@
 from hashlib import sha512
 from uuid import uuid4
+from flask_pymongo import ObjectId
 from flask import Blueprint, render_template, request, url_for, redirect, session, g
 from flask.ext.wtf import Form
 from flask.ext.login import login_user, logout_user, current_user
@@ -84,8 +85,34 @@ def add_project():
     project = Project()
     form = forms.ProjectForm(request.form, project)
     if request.method == 'POST':
-        project.name = form.data['name']
-        project.description = form.data['description']
+        form.populate_obj(project)
         project.save()
         return redirect(url_for('index'))
     return render_template("add_project.html", project=project, form=form)
+
+
+@neobug.route('/project/<string:project_id>', methods=('GET', 'POST'))
+def project(project_id):
+    proj = Project.objects.with_id(project_id)
+    bug = Bug()
+    form = forms.BugForm(request.form, bug)
+    if form.validate_on_submit():
+        form.populate_obj(bug)
+        bug.author = session['user_id']
+        bug.bug_id = ObjectId()
+        proj.bugs.append(bug)
+        proj.save()
+    return render_template("project.html", project=proj, form=form)
+
+@neobug.route('/project/<string:project_id>/bug<string:bug_id>', methods=('GET', 'POST'))
+def bug(project_id, bug_id):
+    proj = Project.objects.with_id(project_id)
+    bug = Project.objects.where("bugs.bug_id==ObjectId'" + bug_id + "'")
+    comment = Comment()
+    form = forms.CommentForm(request.form, comment)
+    if form.validate_on_submit():
+        form.populate_obj(comment)
+        comment.author = session['user_id']
+        bug.comments.append(comment)
+        bug.save()
+    return render_template("bugs.html", project=proj, bug=bug, form=form)

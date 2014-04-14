@@ -2,7 +2,9 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>{{title}} - BugNeo</title>
+		<link rel="stylesheet" type="text/css" href="/static/main.css" />
+		{% block title %}
+		{% endblock %}
 	</head>
 	<body>
 		{% if session.logged_in %}

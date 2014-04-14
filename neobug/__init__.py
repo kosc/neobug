@@ -2,7 +2,6 @@ from flask import Flask
 from flask.ext import login
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
-
 neobug = Flask(__name__)
 neobug.config['MONGODB_SETTINGS'] = {'DB': 'neobug'}
 neobug.config['SECRET_KEY'] = 'KupiKotaZaStoBaksov'
