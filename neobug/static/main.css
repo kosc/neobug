@@ -31,6 +31,16 @@ hr {
 	margin: 5px;
 	padding: 5px;
 }
+.comments {
+	padding-left: 20px;
+}
+.comment {
+	background-color: #422C83;
+	border: 1px solid #9FEE00;
+	border-radius: 10px;
+	margin: 5px;
+	padding: 5px;
+}
 .author {
 	color: #86B32D;
 }

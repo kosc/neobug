@@ -7,11 +7,10 @@ class Project(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     name = db.StringField(max_length=255, required=True, unique=True)
     description = db.StringField()
-    bugs = db.ListField(db.EmbeddedDocumentField('Bug'))
 
 
-class Bug(db.EmbeddedDocument):
-    bug_id = db.ObjectIdField(unique=True, primary_key=True, required=True)
+class Bug(db.Document):
+    project_id = db.StringField(max_length=24, min_length=24, required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
     body = db.StringField(required=True)

@@ -1,0 +1,24 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "layout.html" %}
+{% block content %}
+<div class="bug">
+	{{ bug.title }}
+	<hr />
+	<p>{{ bug.body }}</p>
+</div>
+<div class="comments">
+	{% for comment in bug.comments %}
+		<div class="comment">
+			{{ comment.body }}
+		</div>
+	{% endfor %}
+</div>
+{% if session.logged_in %}
+	Add comment: <br />
+	<form action="/bugs/{{ bug.id }}" method="POST">
+		{{ render_field(form.body) }}
+		{{ form.csrf_token }}
+		<input type="submit" value="Add comment" />
+	</form>
+{% endif %}
+{% endblock %}

@@ -91,23 +91,21 @@ def add_project():
     return render_template("add_project.html", project=project, form=form)
 
 
-@neobug.route('/project/<string:project_id>', methods=('GET', 'POST'))
-def project(project_id):
-    proj = Project.objects.with_id(project_id)
+@neobug.route('/projects/<string:project_id>', methods=('GET', 'POST'))
+def bugs(project_id):
+    project = Project.objects.with_id(project_id)
     bug = Bug()
+    bugs = Bug.objects.where("this.project_id=='" + project_id + "'")
     form = forms.BugForm(request.form, bug)
     if form.validate_on_submit():
         form.populate_obj(bug)
         bug.author = session['user_id']
-        bug.bug_id = ObjectId()
-        proj.bugs.append(bug)
-        proj.save()
-    return render_template("project.html", project=proj, form=form)
+        bug.save()
+    return render_template("bugs.html", project=project, bugs=bugs, form=form)
 
-@neobug.route('/project/<string:project_id>/bug<string:bug_id>', methods=('GET', 'POST'))
-def bug(project_id, bug_id):
-    proj = Project.objects.with_id(project_id)
-    bug = Project.objects.where("bugs.bug_id==ObjectId'" + bug_id + "'")
+@neobug.route('/bugs/<string:bug_id>', methods=('GET', 'POST'))
+def bug(bug_id):
+    bug = Bug.objects.with_id(bug_id)
     comment = Comment()
     form = forms.CommentForm(request.form, comment)
     if form.validate_on_submit():
@@ -115,4 +113,4 @@ def bug(project_id, bug_id):
         comment.author = session['user_id']
         bug.comments.append(comment)
         bug.save()
-    return render_template("bugs.html", project=proj, bug=bug, form=form)
+    return render_template("comments.html", bug=bug, form=form)
