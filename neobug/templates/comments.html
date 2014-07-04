@@ -9,13 +9,15 @@
 <div class="comments">
 	{% for comment in bug.comments %}
 		<div class="comment">
+			<span class="author">{{ comment.author }}</span>
+			<span class="created_at">{{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span><br />
 			{{ comment.body }}
 		</div>
 	{% endfor %}
 </div>
 {% if session.logged_in %}
 	Add comment: <br />
-	<form action="/bugs/{{ bug.id }}" method="POST">
+	<form autocomplete="off" action="/bugs/{{ bug.id }}" method="POST" >
 		{{ render_field(form.body) }}
 		{{ form.csrf_token }}
 		<input type="submit" value="Add comment" />

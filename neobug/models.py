@@ -27,6 +27,7 @@ class Comment(db.EmbeddedDocument):
 class User(db.Document):
     username = db.StringField(max_length=255, required=True, unique=True)
     email = db.StringField(max_length=255)
+    is_admin = db.BooleanField(default=False)
     password_hash = db.StringField(max_length=128, required=True)
     password_salt = db.StringField(max_length=32, required=True)
 

@@ -51,7 +51,7 @@ def login():
 def logout():
     logout_user()
     session['logged_in'] = False
-    return render_template("index.html")
+    return redirect('index')
 
 
 @neobug.route('/register', methods=('GET', 'POST'))
@@ -102,6 +102,7 @@ def bugs(project_id):
         bug.author = session['user_id']
         bug.save()
     return render_template("bugs.html", project=project, bugs=bugs, form=form)
+
 
 @neobug.route('/bugs/<string:bug_id>', methods=('GET', 'POST'))
 def bug(bug_id):
