@@ -1,3 +1,4 @@
+#!/usr/bin/python2
 # -*- encoding: utf-8 -*-
 import sys
 import unittest
@@ -24,14 +25,14 @@ class NeobugTestCase(unittest.TestCase):
     def test_register(self):
         csrf_token = self.get_csrf_token("register")
         rv = self.register('login', 'test@mail.com', 'proverka', csrf_token)
-        assert "Add Project" in rv.data
+        assert "Add project" in rv.data
         assert 'login' in rv.data
         user = User.objects.get(username='login')
         user.delete()
 
     def test_login_logout(self):
         rv = self.login("test", "proverka")
-        assert "You are logged in as" in rv.data
+        assert "Logout(test)" in rv.data
         rv = self.logout()
         assert "Login" in rv.data
         assert "Register" in rv.data
