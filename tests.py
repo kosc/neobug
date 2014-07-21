@@ -11,7 +11,7 @@ class TestSettings:
 
 sys.modules['neobug.test.config'] = TestSettings
 from neobug import neobug
-from neobug.models import User
+from neobug.models import User, Project
 
 class NeobugTestCase(unittest.TestCase):
 
@@ -22,9 +22,10 @@ class NeobugTestCase(unittest.TestCase):
         pass
 
     def test_register(self):
-        csrf_token = self.csrf_token_register()
+        csrf_token = self.get_csrf_token("register")
         rv = self.register('login', 'test@mail.com', 'proverka', csrf_token)
-        assert "Add Project" in rv.data # TODO: edit this wrong assertation
+        assert "Add Project" in rv.data
+        assert 'login' in rv.data
         user = User.objects.get(username='login')
         user.delete()
 
@@ -36,7 +37,15 @@ class NeobugTestCase(unittest.TestCase):
         assert "Register" in rv.data
 
     def test_add_project(self):
-        
+        self.login("test", "proverka")
+        csrf_token = self.get_csrf_token("add_project")
+        name = "New project"
+        description = "This project created for test only."
+        rv = self.add_project(name, description, csrf_token)
+        assert name in rv.data
+        assert description in rv.data
+        project = Project.objects.get(name=name)
+        project.delete()
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
@@ -56,10 +65,15 @@ class NeobugTestCase(unittest.TestCase):
             csrf_token=csrf_token
         ), follow_redirects=True)
 
-    def add_project(self, )
+    def add_project(self, name, description, csrf_token):
+        return self.app.post('/add_project', data=dict(
+            name=name,
+            description=description,
+            csrf_token=csrf_token
+        ), follow_redirects=True)
 
-    def csrf_token_register(self):
-        rv = self.app.get('/register')
+    def get_csrf_token(self, token_for):
+        rv = self.app.get('/' + token_for)
         html = lxml.html.document_fromstring(rv.data)
         return html.get_element_by_id('csrf_token').value
 
