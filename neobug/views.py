@@ -76,6 +76,9 @@ def register():
         user.password_salt = salt
         user.username = username
         user.save()
+        session['logged_in'] = True
+        g.user = user
+        login_user(user)
         return redirect(url_for('index'))
     return render_template("register.html", title="Register", form=form)
 
