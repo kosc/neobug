@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
+	{% if session.logged_in %}
 	<form action="/add_project" method="POST">
 		{{ render_field(form.name) }}
 		{{ render_field(form.description) }}
+		{{ form.csrf_token }}
 		<input type="submit" value="Add Project" />
 	</form>
+	{% else %}
+		You need to <a href="/login">login</a> or <a href="/register">register</a> to create projects.
+	{% endif %}
 {% endblock %}

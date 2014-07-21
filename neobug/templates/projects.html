@@ -4,4 +4,8 @@
 		<dd>{{ project.description }}</dd>
 	</div>
 {% endfor %}
-<a href="/add_project">Add Project</a>
+{% if session.logged_in %}
+	<a href="/add_project">Add Project</a>
+{% else %}
+	You need to <a href="/login">login</a> or <a href="/register">register</a> to create projects.
+{% endif %}
