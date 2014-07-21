@@ -13,9 +13,12 @@ import forms
 @neobug.route('/index')
 def index():
     projects_list = Project.objects.all()
+    model = User()
+    form = forms.LoginForm(request.form, model)
     return render_template("index.html",
                            title="Main page",
-                           projects=projects_list)
+                           projects=projects_list,
+                           form=form)
 
 
 @neobug.route('/login', methods=('GET', 'POST'))

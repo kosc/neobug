@@ -1,11 +1,8 @@
+<div class="col-lg-4">
 {% for project in projects %}
-	<div class="project">
-		<dt><a href="/projects/{{ project.id }}">{{ project.name }}</a></dt>
-		<dd>{{ project.description }}</dd>
+	<div class="panel panel-default">
+		<div class="panel-heading"><a href="/projects/{{ project.id }}">{{ project.name }}</a></div>
+		<div class="panel-body">{{ project.description }}</div>
 	</div>
 {% endfor %}
-{% if session.logged_in %}
-	<a href="/add_project">Add Project</a>
-{% else %}
-	You need to <a href="/login">login</a> or <a href="/register">register</a> to create projects.
-{% endif %}
+</div>
