@@ -100,15 +100,16 @@ def add_project():
 @neobug.route('/projects/<string:project_id>', methods=('GET', 'POST'))
 def bugs(project_id):
     project = Project.objects.with_id(project_id)
-    bug = Bug()
     bugs = Bug.objects.where("this.project_id=='" + project_id + "'")
     for bug in bugs:
         bug.comments_count = len(bug.comments)
+    bug = Bug()
     form = forms.BugForm(request.form, bug)
     if form.validate_on_submit():
         form.populate_obj(bug)
         bug.author = session['user_id']
         bug.save()
+        return redirect('/projects/' + bug.project_id)
     return render_template("bugs.html", project=project, bugs=bugs, form=form)
 
 
@@ -122,4 +123,5 @@ def bug(bug_id):
         comment.author = session['user_id']
         bug.comments.append(comment)
         bug.save()
+        return redirect('/bugs/' + bug_id)
     return render_template("comments.html", bug=bug, form=form)
