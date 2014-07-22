@@ -1,34 +1,34 @@
 {% extends "layout.html" %}
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
-	{{ project.name }}<br />
-	<p>
-		{{ project.description }}
-	</p>
-	{% if bugs %}
-		<div class="bugs">
-		{% for bug in bugs %}
-			<div class="bug">
-				<a href="/bugs/{{ bug.id }}">{{ bug.title }}</a> <span class="author">{{ bug.author }}</span>
-				<span class="created_at">{{ bug.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
-				<hr />
-				<p>{{ bug.body }}</p>
-				<hr />
-				Comments: {{ bug.comments.count({'_id': 1}) }}
-			</div>
-		{% endfor %}
-		</div>
-	{% endif %}
-	{% if session.logged_in %}
-		<p>
-			Add bug: <br />
-			<form action="/projects/{{ project.id }}" method="POST" >
-				<input type="hidden" value="{{project.id}}" name="project_id" />
-				{{ render_field(form.title) }}
-				{{ render_field(form.body) }}
-				{{ form.csrf_token }}
-				<button type="submit" class="btn btn-default">Add Bug</button>
-			</form>
-		</p>
-	{% endif %}
+  <div class="panel panel-default">
+    <div class="panel-heading">{{ project.name }}</div>
+    <div class="panel-body">{{ project.description }}</div>
+  </div>
+  {% if bugs %}
+    <div class="bugs">
+    {% for bug in bugs %}
+      <div class="bug">
+        <a href="/bugs/{{ bug.id }}">{{ bug.title }}</a> <span class="author">{{ bug.author }}</span>
+        <span class="created_at">{{ bug.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+        <hr />
+        <p>{{ bug.body }}</p>
+        <hr />
+        Comments: {{ bug.comments_count }}
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+  {% if session.logged_in %}
+    <p>
+      Add bug: <br />
+      <form action="/projects/{{ project.id }}" method="POST" class="col-lg-4">
+        <input type="hidden" value="{{project.id}}" name="project_id" />
+        {{ render_field(form.title) }}
+        {{ render_field(form.body) }}
+        {{ form.csrf_token }}
+        <button type="submit" class="btn btn-default">Add Bug</button>
+      </form>
+    </p>
+  {% endif %}
 {% endblock %}

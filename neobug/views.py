@@ -14,11 +14,11 @@ import forms
 def index():
     projects_list = Project.objects.all()
     model = User()
-    form = forms.LoginForm(request.form, model)
+    login_form = forms.LoginForm(request.form, model)
     return render_template("index.html",
                            title="Main page",
                            projects=projects_list,
-                           form=form)
+                           form=login_form)
 
 
 @neobug.route('/login', methods=('GET', 'POST'))
@@ -102,6 +102,8 @@ def bugs(project_id):
     project = Project.objects.with_id(project_id)
     bug = Bug()
     bugs = Bug.objects.where("this.project_id=='" + project_id + "'")
+    for bug in bugs:
+        bug.comments_count = len(bug.comments)
     form = forms.BugForm(request.form, bug)
     if form.validate_on_submit():
         form.populate_obj(bug)
