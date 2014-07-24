@@ -1,6 +1,8 @@
 import sys
 from flask import Flask
-from flask.ext import login
+from flask.ext import admin, login
+from flask.ext.admin import helpers
+from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_bootstrap import Bootstrap
 
@@ -14,7 +16,8 @@ else:
 
 db = MongoEngine(neobug)
 neobug.session_interface = MongoEngineSessionInterface(db)
-from neobug.models import User
+from neobug.models import User, Project
+from neobug.admin_views import *
 from neobug import views
 
 
@@ -27,6 +30,10 @@ def init_login():
         return User.objects.where("this.username=='" + user_id + "'")[0]
 
 init_login()
+
+admin = admin.Admin(neobug, 'neubug', index_view=MyAdminIndexView())
+admin.add_view(MyBaseModelView(User))
+admin.add_view(ProjectView(Project))
 
 if __name__ == "__main__":
     neobug.run()

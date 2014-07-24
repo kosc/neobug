@@ -34,6 +34,9 @@ class User(db.Document):
     def is_authenticated(self):
         return True
 
+    def is_admin(self):
+        return self.is_admin
+
     def is_active(self):
         return True
 

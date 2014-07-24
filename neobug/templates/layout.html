@@ -19,6 +19,9 @@
           <ul class="nav navbar-nav">
           </ul>
           <ul class="nav navbar-nav navbar-right">
+	  {% if session.logged_in %}
+	    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+	  {% endif %}
           {% if session.logged_in %}
             <li><a href="/add_project"><span class="lyphicon glyphicon-plus"></span> Add project</a></li>
             <li><a href="/logout">Logout({{ session.user_id }})</a></li>
