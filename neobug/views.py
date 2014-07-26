@@ -61,6 +61,7 @@ def logout():
 def register():
     user = User()
     form = forms.RegisterForm(request.form, user)
+    login_form = forms.LoginForm(request.form, user)
     if request.method == 'POST':
         if not form.validate_on_submit():
             message = "This username is already taken."
@@ -83,7 +84,10 @@ def register():
         g.user = user
         login_user(user)
         return redirect(url_for('index'))
-    return render_template("register.html", title="Register", form=form)
+    return render_template("register.html", 
+                           title="Register", 
+                           form=form,
+                           login_form=login_form)
 
 
 @neobug.route('/add_project', methods=('GET', 'POST'))
