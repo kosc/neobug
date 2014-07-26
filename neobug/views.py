@@ -98,7 +98,9 @@ def add_project():
         form.populate_obj(project)
         project.save()
         return redirect(url_for('index'))
-    return render_template("add_project.html", project=project, form=form)
+    return render_template("add_project.html", 
+                           project=project, 
+                           form=form)
 
 
 @neobug.route('/projects/<string:project_id>', methods=('GET', 'POST'))
@@ -109,12 +111,18 @@ def bugs(project_id):
         bug.comments_count = len(bug.comments)
     bug = Bug()
     form = forms.BugForm(request.form, bug)
+    user = User()
+    login_form = forms.LoginForm(request.form, user)
     if form.validate_on_submit():
         form.populate_obj(bug)
         bug.author = session['user_id']
         bug.save()
         return redirect('/projects/' + bug.project_id)
-    return render_template("bugs.html", project=project, bugs=bugs, form=form)
+    return render_template("bugs.html", 
+                           project=project, 
+                           bugs=bugs, 
+                           form=form, 
+                           login_form=login_form)
 
 
 @neobug.route('/bugs/<string:bug_id>', methods=('GET', 'POST'))
@@ -122,10 +130,15 @@ def bug(bug_id):
     bug = Bug.objects.with_id(bug_id)
     comment = Comment()
     form = forms.CommentForm(request.form, comment)
+    user = User()
+    login_form = forms.LoginForm(request.form, comment)
     if form.validate_on_submit():
         form.populate_obj(comment)
         comment.author = session['user_id']
         bug.comments.append(comment)
         bug.save()
         return redirect('/bugs/' + bug_id)
-    return render_template("comments.html", bug=bug, form=form)
+    return render_template("comments.html", 
+                           bug=bug, 
+                           form=form, 
+                           login_form=login_form)
