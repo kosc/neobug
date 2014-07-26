@@ -1,8 +1,6 @@
-<div class="col-lg-4">
 {% for project in projects %}
-	<div class="panel panel-default">
-		<div class="panel-heading"><a href="/projects/{{ project.id }}">{{ project.name }}</a></div>
-		<div class="panel-body">{{ project.description }}</div>
-	</div>
+  <div class="panel panel-default">
+    <div class="panel-heading"><a href="/projects/{{ project.id }}">{{ project.name }}</a></div>
+    <div class="panel-body">{{ project.description }}</div>
+  </div>
 {% endfor %}
-</div>

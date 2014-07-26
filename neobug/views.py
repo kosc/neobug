@@ -18,7 +18,7 @@ def index():
     return render_template("index.html",
                            title="Main page",
                            projects=projects_list,
-                           form=login_form)
+                           login_form=login_form)
 
 
 @neobug.route('/login', methods=('GET', 'POST'))
@@ -28,10 +28,10 @@ def login():
         password = request.form['password'].encode('utf-8')
         user = User.objects.where("this.username=='" + username + "'")
         if len(user) == 0:
-            form = forms.LoginForm(request.form, user)
+            login_form = forms.LoginForm(request.form, user)
             return render_template("login.html",
                                    message="Incorrect login",
-                                   form=form)
+                                   login_form=login_form)
         user = user[0]
         password_salt = user.password_salt.encode('utf-8')
         password_hash = sha512(password + password_salt).hexdigest()
@@ -41,13 +41,13 @@ def login():
             login_user(user)
             return redirect('index')
         else:
-            form = forms.LoginForm(request.form, user)
+            login_form = forms.LoginForm(request.form, user)
             return render_template("login.html",
                                    message="Incorrect password",
-                                   form=form)
+                                   login_form=login_form)
     model = User()
-    form = forms.LoginForm(request.form, model)
-    return render_template("login.html", form=form)
+    login_form = forms.LoginForm(request.form, model)
+    return render_template("login.html", login_form=login_form)
 
 
 @neobug.route('/logout')
