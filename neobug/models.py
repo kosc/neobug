@@ -9,19 +9,19 @@ class Project(db.Document):
     description = db.StringField()
 
 
+class Comment(db.EmbeddedDocument):
+    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
+    body = db.StringField(required=True)
+    author = db.StringField(max_length=255, required=True)
+
+
 class Bug(db.Document):
     project_id = db.StringField(max_length=24, min_length=24, required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
     body = db.StringField(required=True)
     author = db.StringField(max_length=255, required=True)
-    comments = db.ListField(db.EmbeddedDocumentField('Comment'))
-
-
-class Comment(db.EmbeddedDocument):
-    created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
-    body = db.StringField(required=True)
-    author = db.StringField(max_length=255, required=True)
+    comments = db.ListField(db.EmbeddedDocumentField(Comment))
 
 
 class User(db.Document):
