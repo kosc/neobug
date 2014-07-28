@@ -104,23 +104,23 @@ def add_project():
 
 
 @neobug.route('/projects/<string:project_id>', methods=('GET', 'POST'))
-def bugs(project_id):
+def issues(project_id):
     project = Project.objects.with_id(project_id)
-    bugs = Bug.objects.where("this.project_id=='" + project_id + "'")
-    for bug in bugs:
-        bug.comments_count = len(bug.comments)
-    bug = Bug()
-    form = forms.BugForm(request.form, bug)
+    issues = Issue.objects.where("this.project_id=='" + project_id + "'")
+    for issue in issues:
+        issue.comments_count = len(issue.comments)
+    issue = Issue()
+    form = forms.IssueForm(request.form, issue)
     user = User()
     login_form = forms.LoginForm(request.form, user)
     if form.validate_on_submit():
-        form.populate_obj(bug)
-        bug.author = session['user_id']
-        bug.save()
-        return redirect('/projects/' + bug.project_id)
-    return render_template("bugs.html", 
+        form.populate_obj(issue)
+        issue.author = session['user_id']
+        issue.save()
+        return redirect('/projects/' + issue.project_id)
+    return render_template("issues.html", 
                            project=project, 
-                           bugs=bugs, 
+                           issues=issues, 
                            form=form, 
                            login_form=login_form)
 
@@ -144,12 +144,12 @@ def bug(bug_id):
                            login_form=login_form)
 
 
-@neobug.route('/close_bug/<string:bug_id>', methods=('GET', 'POST'))
-def close_bug(bug_id):
+@neobug.route('/close_issue/<string:issue_id>', methods=('GET', 'POST'))
+def close_issue(issue_id):
     if request.method == 'GET':
-        bug = Bug.objects.with_id(bug_id)
-        bug.is_closed = True
-        bug.save()
+        issue = Issue.objects.with_id(issue_id)
+        issue.is_closed = True
+        issue.save()
     else:
         return "Error! Something goes wrong here..."
-    return redirect('/projects/' + bug.project_id)
+    return redirect('/projects/' + issue.project_id)

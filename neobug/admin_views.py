@@ -1,7 +1,6 @@
 from flask.ext import login, admin
 from flask.ext.admin.form import rules
 from flask.ext.admin.contrib.mongoengine import ModelView
-from neobug.models import Bug
 
 class MyBaseModelView(ModelView):
     def is_accessible(self):
@@ -17,7 +16,7 @@ class UserView(MyBaseModelView):
 class ProjectView(MyBaseModelView):
     pass
 
-class BugView(ModelView):
+class IssueView(ModelView):
     form_subdocuments = {
         'comments': {
             'form_subdocuments': {

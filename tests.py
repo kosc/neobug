@@ -12,7 +12,7 @@ class TestSettings:
 
 sys.modules['neobug.test.config'] = TestSettings
 from neobug import neobug
-from neobug.models import User, Project, Bug
+from neobug.models import User, Project, Issue
 
 class NeobugTestCase(unittest.TestCase):
 
@@ -48,18 +48,18 @@ class NeobugTestCase(unittest.TestCase):
         project = Project.objects.get(name=name)
         project.delete()
 
-    def test_add_bug(self):
+    def test_add_issue(self):
         self.login("test", "proverka")
         project = Project.objects.get(name="Test project")
         project_id = project.id
         csrf_token = self.get_csrf_token('projects/'+str(project_id))
-        title = "New bug"
-        body = "Test bug (not bug actually, huh?)"
-        rv = self.add_bug(project_id, title, body, csrf_token)
+        title = "New issue"
+        body = "Test issue (not issue actually, huh?)"
+        rv = self.add_issue(project_id, title, body, csrf_token)
         assert title in rv.data
         assert body in rv.data
-        bug = Bug.objects.get(title=title)
-        bug.delete()
+        issue = Issue.objects.get(title=title)
+        issue.delete()
 
     def login(self, username, password):
         return self.app.post('/login', data=dict(
@@ -86,7 +86,7 @@ class NeobugTestCase(unittest.TestCase):
             csrf_token=csrf_token
         ), follow_redirects=True)
 
-    def add_bug(self, project_id, title, body, csrf_token):
+    def add_issue(self, project_id, title, body, csrf_token):
         return self.app.post('/projects/'+str(project_id), data=dict(
             project_id=project_id,
             title=title,

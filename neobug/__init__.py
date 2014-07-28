@@ -35,7 +35,7 @@ init_login()
 admin = admin.Admin(neobug, 'neubug', index_view=MyAdminIndexView())
 admin.add_view(UserView(User))
 admin.add_view(ProjectView(Project))
-admin.add_view(BugView(Bug))
+admin.add_view(IssueView(Issue))
 
 if __name__ == "__main__":
     neobug.run()
