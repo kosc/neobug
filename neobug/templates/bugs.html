@@ -6,16 +6,23 @@
     <div class="panel-body">{{ project.description }}</div>
   </div>
   {% if bugs %}
-    <div class="bugs">
+    <div>
     {% for bug in bugs %}
-      <div class="bug">
-        <a href="/bugs/{{ bug.id }}">{{ bug.title }}</a> <span class="author">{{ bug.author }}</span>
-        <span class="created_at">{{ bug.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
-        <hr />
-        <p>{{ bug.body }}</p>
-        <hr />
-        Comments: {{ bug.comments_count }}
-      </div>
+      {% if not bug.is_closed %}
+        <div>
+          <a href="/bugs/{{ bug.id }}">{{ bug.title }}</a> <span>{{ bug.author }}</span>
+          <span>{{ bug.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
+	  {% if session.logged_in %}
+	    <form action="/close_bug/{{ bug.id }}" method="GET">
+	      <button type="submit" class="btn btn-default">Close bug</button>
+	    </form>
+	  {% endif %}
+          <hr />
+          <p>{{ bug.body }}</p>
+          <hr />
+          Comments: {{ bug.comments_count }}
+        </div>
+      {% endif %}
     {% endfor %}
     </div>
   {% endif %}

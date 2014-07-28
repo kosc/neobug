@@ -142,3 +142,14 @@ def bug(bug_id):
                            bug=bug, 
                            form=form, 
                            login_form=login_form)
+
+
+@neobug.route('/close_bug/<string:bug_id>', methods=('GET', 'POST'))
+def close_bug(bug_id):
+    if request.method == 'GET':
+        bug = Bug.objects.with_id(bug_id)
+        bug.is_closed = True
+        bug.save()
+    else:
+        return "Error! Something goes wrong here..."
+    return redirect('/projects/' + bug.project_id)

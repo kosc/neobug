@@ -22,6 +22,7 @@ class Bug(db.Document):
     body = db.StringField(required=True)
     author = db.StringField(max_length=255, required=True)
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
+    is_closed = db.BooleanField(default=False)
 
 
 class User(db.Document):
