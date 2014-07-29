@@ -23,6 +23,7 @@ def index():
 
 @neobug.route('/login', methods=('GET', 'POST'))
 def login():
+    current_page = request.environ['HTTP_REFERER']
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
@@ -39,7 +40,7 @@ def login():
             session['logged_in'] = True
             g.user = user
             login_user(user)
-            return redirect('index')
+            return redirect(current_page)
         else:
             login_form = forms.LoginForm(request.form, user)
             return render_template("login.html",
@@ -52,9 +53,10 @@ def login():
 
 @neobug.route('/logout')
 def logout():
+    current_page = request.environ['HTTP_REFERER']
     logout_user()
     session['logged_in'] = False
-    return redirect('index')
+    return redirect(current_page)
 
 
 @neobug.route('/register', methods=('GET', 'POST'))
@@ -125,9 +127,9 @@ def issues(project_id):
                            login_form=login_form)
 
 
-@neobug.route('/bugs/<string:bug_id>', methods=('GET', 'POST'))
-def bug(bug_id):
-    bug = Bug.objects.with_id(bug_id)
+@neobug.route('/issues/<string:issue_id>', methods=('GET', 'POST'))
+def issue(issue_id):
+    issue = Issue.objects.with_id(issue_id)
     comment = Comment()
     form = forms.CommentForm(request.form, comment)
     user = User()
@@ -135,11 +137,11 @@ def bug(bug_id):
     if form.validate_on_submit():
         form.populate_obj(comment)
         comment.author = session['user_id']
-        bug.comments.append(comment)
-        bug.save()
-        return redirect('/bugs/' + bug_id)
+        issue.comments.append(comment)
+        issue.save()
+        return redirect('/issues/' + issue_id)
     return render_template("comments.html", 
-                           bug=bug, 
+                           issue=issue, 
                            form=form, 
                            login_form=login_form)
 
