@@ -23,7 +23,7 @@ def index():
 
 @neobug.route('/login', methods=('GET', 'POST'))
 def login():
-    current_page = request.environ['HTTP_REFERER']
+    current_page = request.referrer
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
@@ -53,7 +53,7 @@ def login():
 
 @neobug.route('/logout')
 def logout():
-    current_page = request.environ['HTTP_REFERER']
+    current_page = request.referrer
     logout_user()
     session['logged_in'] = False
     return redirect(current_page)

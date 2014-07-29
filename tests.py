@@ -62,13 +62,15 @@ class NeobugTestCase(unittest.TestCase):
         issue.delete()
 
     def login(self, username, password):
-        return self.app.post('/login', data=dict(
-            username=username,
-            password=password
-        ), follow_redirects=True)
+        return self.app.post('/login', 
+                             data=dict(username=username, password=password), 
+                             follow_redirects=True, 
+                             headers={'Referer': '/'})
 
     def logout(self):
-        return self.app.get('/logout', follow_redirects=True)
+        return self.app.get('/logout',
+                            follow_redirects=True, 
+                            headers={'Referer': '/'})
 
     def register(self, username, email, password, csrf_token):
         return self.app.post('/register', data=dict(
