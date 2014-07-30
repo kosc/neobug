@@ -86,8 +86,8 @@ def register():
         g.user = user
         login_user(user)
         return redirect(url_for('index'))
-    return render_template("register.html", 
-                           title="Register", 
+    return render_template("register.html",
+                           title="Register",
                            form=form,
                            login_form=login_form)
 
@@ -100,8 +100,8 @@ def add_project():
         form.populate_obj(project)
         project.save()
         return redirect(url_for('index'))
-    return render_template("add_project.html", 
-                           project=project, 
+    return render_template("add_project.html",
+                           project=project,
                            form=form)
 
 
@@ -120,10 +120,10 @@ def issues(project_id):
         issue.author = session['user_id']
         issue.save()
         return redirect('/projects/' + issue.project_id)
-    return render_template("issues.html", 
-                           project=project, 
-                           issues=issues, 
-                           form=form, 
+    return render_template("issues.html",
+                           project=project,
+                           issues=issues,
+                           form=form,
                            login_form=login_form)
 
 
@@ -140,9 +140,9 @@ def issue(issue_id):
         issue.comments.append(comment)
         issue.save()
         return redirect('/issues/' + issue_id)
-    return render_template("comments.html", 
-                           issue=issue, 
-                           form=form, 
+    return render_template("comments.html",
+                           issue=issue,
+                           form=form,
                            login_form=login_form)
 
 
