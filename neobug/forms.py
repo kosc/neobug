@@ -5,7 +5,7 @@ from neobug.models import *
 
 UserForm = model_form(User, exclude=['password_hash', 'password_salt'])
 ProjectForm = model_form(Project, exclude=['created_at', 'bugs'])
-IssueForm = model_form(Issue, exclude=['created_at', 'comments', 'author'])
+IssueForm = model_form(Issue, exclude=['created_at', 'comments', 'author', 'status'])
 CommentForm = model_form(Comment, exclude=['created_at', 'author'])
 
 

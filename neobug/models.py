@@ -16,6 +16,7 @@ class Comment(db.EmbeddedDocument):
 
 
 class Issue(db.Document):
+    statuses = ["New", "Rejected", "In progress", "Resolved", "Closed"]
     project_id = db.StringField(max_length=24, min_length=24, required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
@@ -23,6 +24,7 @@ class Issue(db.Document):
     author = db.StringField(max_length=255, required=True)
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
     is_closed = db.BooleanField(default=False)
+    status = db.StringField(max_length=12, default=statuses[0], required=True)
 
 
 class User(db.Document):

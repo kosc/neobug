@@ -146,11 +146,13 @@ def issue(issue_id):
                            login_form=login_form)
 
 
-@neobug.route('/close_issue/<string:issue_id>', methods=('GET', 'POST'))
-def close_issue(issue_id):
-    if request.method == 'GET':
+@neobug.route('/change_status', methods=('GET', 'POST'))
+def change_status():
+    if request.method == 'POST':
+        issue_id = request.form['issue_id']
+        new_status = request.form['status']
         issue = Issue.objects.with_id(issue_id)
-        issue.is_closed = True
+        issue.status = new_status
         issue.save()
     else:
         return "Error! Something goes wrong here..."
