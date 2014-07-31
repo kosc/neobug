@@ -23,7 +23,10 @@
 	      </select>
 	      <button type="submit" class="btn btn-default">Change status</button>
 	    </form>
+	  {% else %}
+	    status: {{ issue.status }}
 	  {% endif %}
+	  Category: {{ issue.category }}
           <hr />
           <p>{{ issue.body }}</p>
           <hr />
