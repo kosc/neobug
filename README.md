@@ -9,4 +9,3 @@ TODO:
 * Wiki
 * Operative plan
 * Git hosting (with forks and pullrequests)
-* Issue's categories
