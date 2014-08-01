@@ -1,6 +1,9 @@
+from wtforms.fields import SelectField
 from flask.ext import login, admin
 from flask.ext.admin.form import rules
 from flask.ext.admin.contrib.mongoengine import ModelView
+
+from neobug.models import Issue, Project
 
 
 class MyBaseModelView(ModelView):
@@ -24,6 +27,15 @@ class ProjectView(MyBaseModelView):
 
 
 class IssueView(ModelView):
+    form_overrides = dict(status=SelectField, category=SelectField)
+    form_args = dict(
+        status=dict(
+            choices=zip(Issue.statuses, Issue.statuses)
+        ),
+        category=dict(
+            choices=zip(Issue.categories, Issue.categories)
+        )
+    )
     form_subdocuments = {
         'comments': {
             'form_subdocuments': {
