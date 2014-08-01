@@ -27,13 +27,21 @@ class ProjectView(MyBaseModelView):
 
 
 class IssueView(ModelView):
-    form_overrides = dict(status=SelectField, category=SelectField)
+    projects_ids = Project.objects.distinct("id")
+    projects_ids = [str(project_id) for project_id in projects_ids]
+    projects_names = Project.objects.distinct("name")
+    form_overrides = dict(status=SelectField,
+                          category=SelectField,
+                          project_id=SelectField)
     form_args = dict(
         status=dict(
             choices=zip(Issue.statuses, Issue.statuses)
         ),
         category=dict(
             choices=zip(Issue.categories, Issue.categories)
+        ),
+        project_id=dict(
+            choices=zip(projects_ids, projects_names)
         )
     )
     form_subdocuments = {
