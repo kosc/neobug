@@ -31,15 +31,15 @@ class Issue(db.Document):
 class User(db.Document):
     username = db.StringField(max_length=255, required=True, unique=True)
     email = db.StringField(max_length=255)
-    is_admin = db.BooleanField(default=False)
+    admin = db.BooleanField(default=False)
     password_hash = db.StringField(max_length=128, required=True)
     password_salt = db.StringField(max_length=32, required=True)
 
+    def is_admin(self):
+        return self.admin
+
     def is_authenticated(self):
         return True
-
-    def is_admin(self):
-        return self.is_admin
 
     def is_active(self):
         return True

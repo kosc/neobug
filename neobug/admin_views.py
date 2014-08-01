@@ -19,7 +19,7 @@ class MyAdminIndexView(admin.AdminIndexView):
 
 
 class UserView(MyBaseModelView):
-    column_list = ('username', 'email')
+    column_list = ('username', 'email', 'admin')
     form_excluded_columns = ('password_hash', 'password_salt')
 
 
