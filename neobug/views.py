@@ -144,16 +144,3 @@ def issue(issue_id):
                            issue=issue,
                            form=form,
                            login_form=login_form)
-
-
-@neobug.route('/change_status', methods=('GET', 'POST'))
-def change_status():
-    if request.method == 'POST':
-        issue_id = request.form['issue_id']
-        new_status = request.form['status']
-        issue = Issue.objects.with_id(issue_id)
-        issue.status = new_status
-        issue.save()
-    else:
-        return "Error! Something goes wrong here..."
-    return redirect('/projects/' + issue.project_id)
