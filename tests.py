@@ -61,6 +61,17 @@ class NeobugTestCase(unittest.TestCase):
         issue = Issue.objects.get(title=title)
         issue.delete()
 
+    def test_add_comment(self):
+        self.login("test", "proverka")
+        issue = Issue.objects.get(title="Test issue")
+        issue_id = issue.id
+        csrf_token = self.get_csrf_token("issues/"+str(issue_id))
+        body = "Test comment"
+        rv = self.add_comment(issue_id, body, csrf_token)
+        assert body in rv.data
+        issue.comments = []
+        issue.save()
+
     def login(self, username, password):
         return self.app.post('/login', 
                              data=dict(username=username, password=password), 
@@ -92,6 +103,12 @@ class NeobugTestCase(unittest.TestCase):
         return self.app.post('/projects/'+str(project_id), data=dict(
             project_id=project_id,
             title=title,
+            body=body,
+            csrf_token=csrf_token
+        ), follow_redirects=True)
+
+    def add_comment(self, issue_id, body, csrf_token):
+        return self.app.post('/issues/'+str(issue_id), data=dict(
             body=body,
             csrf_token=csrf_token
         ), follow_redirects=True)
