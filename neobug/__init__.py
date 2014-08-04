@@ -1,14 +1,13 @@
 import sys
 from flask import Flask
 from flask.ext import admin, login
-from flask.ext.plugins import PluginManager
 from flask.ext.admin import helpers
 from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_bootstrap import Bootstrap
 
+
 neobug = Flask(__name__)
-plugin_manager = PluginManager(neobug)
 Bootstrap(neobug)
 
 if 'neobug.test.config' in sys.modules:
@@ -22,6 +21,10 @@ neobug.session_interface = MongoEngineSessionInterface(db)
 from neobug.models import *
 from neobug.admin_views import *
 from neobug import views
+
+
+from .blueprints.wiki.views import wiki
+neobug.register_blueprint(wiki, url_prefix='/wiki')
 
 
 def init_login():
