@@ -16,12 +16,9 @@ import forms
 @neobug.route('/index')
 def index():
     projects = Project.objects.all()
-    user_model = User()
-    login_form = forms.LoginForm(request.form, user_model)
     return render_template("index.html",
                            title="Main page",
-                           projects=projects,
-                           login_form=login_form)
+                           projects=projects)
 
 
 @neobug.route('/login', methods=('GET', 'POST'))
@@ -32,10 +29,8 @@ def login():
         password = request.form['password'].encode('utf-8')
         user = User.objects.where("this.username=='" + username + "'")
         if len(user) == 0:
-            login_form = forms.LoginForm(request.form, user)
             return render_template("login.html",
-                                   message="Incorrect login",
-                                   login_form=login_form)
+                                   message="Incorrect login")
         user = user[0]
         password_salt = user.password_salt.encode('utf-8')
         password_hash = sha512(password + password_salt).hexdigest()
@@ -45,13 +40,10 @@ def login():
             login_user(user)
             return redirect(current_page)
         else:
-            login_form = forms.LoginForm(request.form, user)
             return render_template("login.html",
-                                   message="Incorrect password",
-                                   login_form=login_form)
+                                   message="Incorrect password")
     model = User()
-    login_form = forms.LoginForm(request.form, model)
-    return render_template("login.html", login_form=login_form)
+    return render_template("login.html")
 
 
 @neobug.route('/logout')
@@ -66,7 +58,6 @@ def logout():
 def register():
     user = User()
     form = forms.RegisterForm(request.form, user)
-    login_form = forms.LoginForm(request.form, user)
     if request.method == 'POST':
         if not form.validate_on_submit():
             message = "This username is already taken."
@@ -91,8 +82,7 @@ def register():
         return redirect(url_for('index'))
     return render_template("register.html",
                            title="Register",
-                           form=form,
-                           login_form=login_form)
+                           form=form)
 
 
 @neobug.route('/add_project', methods=('GET', 'POST'))
@@ -116,8 +106,6 @@ def issues(project_id):
         issue.comments_count = len(issue.comments)
     issue = Issue()
     form = forms.IssueForm(request.form, issue)
-    user = User()
-    login_form = forms.LoginForm(request.form, user)
     if form.validate_on_submit():
         form.populate_obj(issue)
         issue.author = session['user_id']
@@ -126,8 +114,7 @@ def issues(project_id):
     return render_template("issues.html",
                            project=project,
                            issues=issues,
-                           form=form,
-                           login_form=login_form)
+                           form=form)
 
 
 @neobug.route('/issues/<string:issue_id>', methods=('GET', 'POST'))
@@ -135,8 +122,6 @@ def issue(issue_id):
     issue = Issue.objects.with_id(issue_id)
     comment = Comment()
     form = forms.CommentForm(request.form, comment)
-    user = User()
-    login_form = forms.LoginForm(request.form, comment)
     if form.validate_on_submit():
         form.populate_obj(comment)
         comment.author = session['user_id']
@@ -145,5 +130,4 @@ def issue(issue_id):
         return redirect('/issues/' + issue_id)
     return render_template("comments.html",
                            issue=issue,
-                           form=form,
-                           login_form=login_form)
+                           form=form)
