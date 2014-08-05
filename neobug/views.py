@@ -1,9 +1,12 @@
 from hashlib import sha512
 from uuid import uuid4
+
 from flask_pymongo import ObjectId
-from flask import Blueprint, render_template, request, url_for, redirect, session, g
+from flask import (Blueprint, render_template, request, url_for,
+                   redirect, session, g)
 from flask.ext.wtf import Form
 from flask.ext.login import login_user, logout_user, current_user
+
 from neobug import neobug
 from neobug.models import *
 import forms
@@ -12,12 +15,12 @@ import forms
 @neobug.route('/')
 @neobug.route('/index')
 def index():
-    projects_list = Project.objects.all()
-    model = User()
-    login_form = forms.LoginForm(request.form, model)
+    projects = Project.objects.all()
+    user_model = User()
+    login_form = forms.LoginForm(request.form, user_model)
     return render_template("index.html",
                            title="Main page",
-                           projects=projects_list,
+                           projects=projects,
                            login_form=login_form)
 
 
