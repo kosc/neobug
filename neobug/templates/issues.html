@@ -10,9 +10,12 @@
       {% if issue.status != "Closed" %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a href="/issues/{{ issue.id }}">{{ issue.title }}</a> <span>{{ issue.author }}</span>
-            <span>{{ issue.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span>
-            <span>status: {{ issue.status }}, category: {{ issue.category }}</span>
+            <a href="/issues/{{ issue.id }}">{{ issue.title }}</a> {{ issue.author }}
+            {{ issue.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
+            status: {{ issue.status }} / category: {{ issue.category }}
+	    {% if issue.assigned %}
+              / assigned to: {{ issue.assigned }}
+	    {% endif %}
             {% if session.logged_in %}
               {% if current_user.is_admin(): %}
                 <a href="/admin/issue/edit/?url=%2Fadmin%2Fissue%2F&id={{ issue.id }}">

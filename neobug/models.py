@@ -24,6 +24,7 @@ class Issue(db.Document):
     body = db.StringField(required=True)
     author = db.StringField(max_length=255, required=True)
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
+    assigned = db.StringField(max_length=255)
     status = db.StringField(max_length=12, default=statuses[0], required=True)
     category = db.StringField(max_length=13, default=categories[0], required=True)
 
