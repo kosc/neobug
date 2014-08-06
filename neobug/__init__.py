@@ -37,7 +37,7 @@ def init_login():
 
 init_login()
 
-admin = admin.Admin(neobug, 'neubug', index_view=MyAdminIndexView())
+admin = admin.Admin(neobug, 'neobug', index_view=MyAdminIndexView())
 admin.add_view(UserView(User))
 admin.add_view(ProjectView(Project))
 admin.add_view(IssueView(Issue))

@@ -5,4 +5,5 @@ wiki = Blueprint('wiki', __name__,
 
 @wiki.route('/')
 def index():
-    return render_template('wiki_layout.html')
+    return render_template('wiki_layout.html', 
+                           title="Wiki - main page")
