@@ -1,11 +1,14 @@
-{% extends "bootstrap/base.html" %}
 {% block head %}
   <title>
     {% block title %}
     {% endblock %}
   </title>
+  {% block scripts %}
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  {% endblock %}
   {% block styles %}
-    {{super()}}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="/static/css/main.css" rel="stylesheet" media="screen" />
   {% endblock %}
 {% endblock %}
@@ -50,9 +53,6 @@
     {% endblock %}
 
     {% block content %}
-    {% endblock %}
-    {% block scripts %}
-    {{super()}}
     {% endblock %}
   </div>
 {% endblock %}
