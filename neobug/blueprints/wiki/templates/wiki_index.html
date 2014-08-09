@@ -1,12 +1,14 @@
 {% extends 'wiki_layout.html' %}
 {% block content %}
   <h2>
-    {{ page.title  }}
-    <a href="/wiki/edit/{{ page.id }}">
-      <span class="glyphicon glyphicon-edit"></span>
+    Wiki's pages
+    <a href="/wiki/create">
+      <span class="glyphicon glyphicon-plus"></span>
     </a>
   </h2>
-  <p>
-    {{ page.content }}
-  </p>
+  <ul>
+  {% for page in pages %}
+    <li><a href="/wiki/page/{{ page.id }}">{{ page.title }}</a></li>
+  {% endfor %}
+  </ul>
 {% endblock %}

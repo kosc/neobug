@@ -1,0 +1,12 @@
+{% extends 'wiki_layout.html' %}
+{% block content %}
+  <h2>
+    {{ page.title  }}
+    <a href="/wiki/edit/{{ page.id }}">
+      <span class="glyphicon glyphicon-edit"></span>
+    </a>
+  </h2>
+  <p>
+    {{ page.content }}
+  </p>
+{% endblock %}

@@ -8,11 +8,10 @@ wiki = Blueprint('wiki', __name__,
 
 @wiki.route('/')
 def index():
-    projects = Project.objects.all()
-    page = Page.objects.all()[0]
+    pages = Page.objects.all()
     return render_template('wiki_index.html',
                            title="Wiki - main page",
-                           page=page)
+                           pages=pages)
 
 @wiki.route('/edit/<string:page_id>', methods=('GET', 'POST'))
 def edit(page_id):
@@ -39,3 +38,8 @@ def create():
                            title="Wiki - create new page",
                            page=page,
                            form=form)
+@wiki.route('/page/<string:page_id>', methods=('GET', 'POST'))
+def page(page_id):
+    page = Page.objects.with_id(page_id)
+    return render_template('wiki_page.html',
+                           page=page)
