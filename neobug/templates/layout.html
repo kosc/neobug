@@ -36,7 +36,10 @@
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if session.logged_in %}
-                  <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                  <li><a href="/wiki">Wiki</a></li>
+                  {% if current_user.is_admin %}
+                    <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
+                  {% endif %}
                 {% endif %}
                 {% if session.logged_in %}
                   <li><a href="/add_project"><span class="lyphicon glyphicon-plus"></span> Add project</a></li>

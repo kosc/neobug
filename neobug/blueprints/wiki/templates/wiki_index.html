@@ -1,10 +1,12 @@
-{% extends 'wiki_layout.html' %}
+{% extends 'layout.html' %}
 {% block content %}
   <h2>
     Wiki's pages
-    <a href="/wiki/create">
-      <span class="glyphicon glyphicon-plus"></span>
-    </a>
+    {% if session.logged_in %}
+      <a href="/wiki/create">
+        <span class="glyphicon glyphicon-plus"></span>
+      </a>
+    {% endif %}
   </h2>
   <ul>
   {% for page in pages %}
