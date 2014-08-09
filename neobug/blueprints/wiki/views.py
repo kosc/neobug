@@ -21,8 +21,21 @@ def edit(page_id):
     if form.validate_on_submit():
         form.populate_obj(page)
         page.save()
-        return redirect('/')
+        return redirect('/wiki/')
     return render_template('wiki_edit.html',
                            title="Wiki - edit page "+page.title,
+                           page=page,
+                           form=form)
+
+@wiki.route('/create', methods=('GET', 'POST'))
+def create():
+    page = Page()
+    form = PageForm(request.form, page)
+    if form.validate_on_submit():
+        form.populate_obj(page)
+        page.save()
+        return redirect('/wiki/')
+    return render_template('wiki_create.html',
+                           title="Wiki - create new page",
                            page=page,
                            form=form)
