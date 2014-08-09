@@ -21,7 +21,7 @@ from neobug.admin_views import *
 from neobug import views
 
 
-from .blueprints.wiki.views import wiki
+from blueprints.wiki.views import wiki
 neobug.register_blueprint(wiki, url_prefix='/wiki')
 
 
