@@ -15,10 +15,10 @@ import forms
 @neobug.route('/')
 @neobug.route('/index')
 def index():
-    projects = Project.objects.all()
+    overview = Overview.objects.first()
     return render_template("index.html",
                            title="Main page",
-                           projects=projects)
+                           overview=overview)
 
 
 @neobug.route('/login', methods=('GET', 'POST'))

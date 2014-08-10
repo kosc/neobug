@@ -35,6 +35,9 @@
               <ul class="nav navbar-nav">
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                {% block projects_link %}
+                  <li><a href="/projects">Projects</a></li>
+                {% endblock %}
                 {% if session.logged_in %}
                   {% block wiki_link %}<li><a href="/wiki">Wiki</a></li>{% endblock %}
                   {% if current_user.is_admin %}

@@ -8,6 +8,9 @@ class Project(db.Document):
     name = db.StringField(max_length=255, required=True, unique=True)
     description = db.StringField()
 
+class Overview(db.Document):
+    content = db.StringField()
+
 
 class Comment(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
