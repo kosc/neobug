@@ -36,7 +36,7 @@
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if session.logged_in %}
-                  <li><a href="/wiki">Wiki</a></li>
+                  {% block wiki_link %}<li><a href="/wiki">Wiki</a></li>{% endblock %}
                   {% if current_user.is_admin %}
                     <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
                   {% endif %}
