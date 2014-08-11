@@ -17,7 +17,7 @@
 </div>
 {% if session.logged_in %}
 	Add comment: <br />
-	<form autocomplete="off" action="/issues/{{ issue.id }}" method="POST" >
+	<form autocomplete="off" action="/projects/issues/{{ issue.id }}" method="POST" >
 		{{ render_field(form.body) }}
 		{{ form.csrf_token }}
 		<button type="submit" class="btn btn-default">Add comment</button>

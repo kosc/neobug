@@ -25,8 +25,8 @@ class NeobugTestCase(unittest.TestCase):
     def test_register(self):
         csrf_token = self.get_csrf_token("register")
         rv = self.register('login', 'test@mail.com', 'proverka', csrf_token)
-        assert "Add project" in rv.data
         assert 'login' in rv.data
+        assert 'Logout' in rv.data
         user = User.objects.get(username='login')
         user.delete()
 
@@ -39,7 +39,7 @@ class NeobugTestCase(unittest.TestCase):
 
     def test_add_project(self):
         self.login("test", "proverka")
-        csrf_token = self.get_csrf_token("add_project")
+        csrf_token = self.get_csrf_token("projects/new")
         name = "New project"
         description = "This project created for test only."
         rv = self.add_project(name, description, csrf_token)
@@ -65,7 +65,7 @@ class NeobugTestCase(unittest.TestCase):
         self.login("test", "proverka")
         issue = Issue.objects.get(title="Test issue")
         issue_id = issue.id
-        csrf_token = self.get_csrf_token("issues/"+str(issue_id))
+        csrf_token = self.get_csrf_token("projects/issues/"+str(issue_id))
         body = "Test comment"
         rv = self.add_comment(issue_id, body, csrf_token)
         assert body in rv.data
@@ -93,7 +93,7 @@ class NeobugTestCase(unittest.TestCase):
         ), follow_redirects=True)
 
     def add_project(self, name, description, csrf_token):
-        return self.app.post('/add_project', data=dict(
+        return self.app.post('/projects/new', data=dict(
             name=name,
             description=description,
             csrf_token=csrf_token
@@ -108,7 +108,7 @@ class NeobugTestCase(unittest.TestCase):
         ), follow_redirects=True)
 
     def add_comment(self, issue_id, body, csrf_token):
-        return self.app.post('/issues/'+str(issue_id), data=dict(
+        return self.app.post('/projects/issues/'+str(issue_id), data=dict(
             body=body,
             csrf_token=csrf_token
         ), follow_redirects=True)

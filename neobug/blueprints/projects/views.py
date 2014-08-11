@@ -38,7 +38,7 @@ def project_show(project_id):
     form = IssueForm(request.form, issue)
     if form.validate_on_submit():
         form.populate_obj(issue)
-        issue.author = session('user_id')
+        issue.author = session['user_id']
         issue.save()
         return redirect('/projects/' + issue.project_id)
     return render_template('projects_show.html',
@@ -55,8 +55,9 @@ def project_issue(issue_id):
     if form.validate_on_submit():
         form.populate_obj(comment)
         comment.author = session['user_id']
+        issue.comments.append(comment)
         issue.save()
-        return redirect('/issues/' + issue_id)
+        return redirect('/projects/issues/' + issue_id)
     return render_template('projects_issue.html',
                            issue=issue,
                            form=form)
