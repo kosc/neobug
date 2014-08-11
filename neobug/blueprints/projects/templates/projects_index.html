@@ -1,0 +1,10 @@
+{% extends 'projects_layout.html' %}
+{% block content %}
+  <a href="/projects/new"><span class="glyphicon glyphicon-plus"></span> New project</a>
+  {% for project in project_list %}
+    <div class="panel panel-default">
+      <div class="panel-heading"><a href="/projects/{{ project.id }}">{{ project.name }}</a></div>
+      <div class="panel-body">{{ project.description }}</div>
+    </div>
+  {% endfor %}
+{% endblock %}

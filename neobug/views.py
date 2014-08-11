@@ -27,7 +27,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password'].encode('utf-8')
-        user = User.objects.where("this.username=='" + username + "'")
+        user = User.objects(username=username)
         if len(user) == 0:
             return render_template("login.html",
                                    message="Incorrect login")
@@ -82,52 +82,4 @@ def register():
         return redirect(url_for('index'))
     return render_template("register.html",
                            title="Register",
-                           form=form)
-
-
-@neobug.route('/add_project', methods=('GET', 'POST'))
-def add_project():
-    project = Project()
-    form = forms.ProjectForm(request.form, project)
-    if request.method == 'POST':
-        form.populate_obj(project)
-        project.save()
-        return redirect(url_for('index'))
-    return render_template("add_project.html",
-                           project=project,
-                           form=form)
-
-
-@neobug.route('/projects/<string:project_id>', methods=('GET', 'POST'))
-def issues(project_id):
-    project = Project.objects.with_id(project_id)
-    issues = Issue.objects.where("this.project_id=='" + project_id + "'")
-    for issue in issues:
-        issue.comments_count = len(issue.comments)
-    issue = Issue()
-    form = forms.IssueForm(request.form, issue)
-    if form.validate_on_submit():
-        form.populate_obj(issue)
-        issue.author = session['user_id']
-        issue.save()
-        return redirect('/projects/' + issue.project_id)
-    return render_template("issues.html",
-                           project=project,
-                           issues=issues,
-                           form=form)
-
-
-@neobug.route('/issues/<string:issue_id>', methods=('GET', 'POST'))
-def issue(issue_id):
-    issue = Issue.objects.with_id(issue_id)
-    comment = Comment()
-    form = forms.CommentForm(request.form, comment)
-    if form.validate_on_submit():
-        form.populate_obj(comment)
-        comment.author = session['user_id']
-        issue.comments.append(comment)
-        issue.save()
-        return redirect('/issues/' + issue_id)
-    return render_template("comments.html",
-                           issue=issue,
                            form=form)

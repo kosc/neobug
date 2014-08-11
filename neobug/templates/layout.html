@@ -33,6 +33,9 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
+                {% block overview_link %}
+                  <li><a href="/">Overview</a></li>
+                {% endblock %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% block projects_link %}
@@ -45,7 +48,6 @@
                   {% endif %}
                 {% endif %}
                 {% if session.logged_in %}
-                  <li><a href="/add_project"><span class="lyphicon glyphicon-plus"></span> Add project</a></li>
                   <li><a href="/logout">Logout({{ session.user_id }})</a></li>
                 {% else %}
                   <li><a href="/register">Register</a></li>
