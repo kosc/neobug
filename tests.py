@@ -19,58 +19,60 @@ class NeobugTestCase(unittest.TestCase):
     def setUp(self):
         self.app = neobug.test_client()
 
-    def tearDown(self):
-        pass
+    @classmethod
+    def tearDownClass(self):
+        user = User.objects.get(username='login')
+        user.delete()
+        project = Project.objects.get(name='New project')
+        project.delete()
+        issue = Issue.objects.get(title='New issue')
+        issue.delete()
+        issue = Issue.objects.get(title='Test issue')
+        issue.comments = []
+        issue.save()
+        
 
     def test_register(self):
-        csrf_token = self.get_csrf_token("register")
+        csrf_token = self.get_csrf_token('register')
         rv = self.register('login', 'test@mail.com', 'proverka', csrf_token)
         assert 'login' in rv.data
         assert 'Logout' in rv.data
-        user = User.objects.get(username='login')
-        user.delete()
 
     def test_login_logout(self):
-        rv = self.login("test", "proverka")
-        assert "Logout(test)" in rv.data
+        rv = self.login('test', 'proverka')
+        assert 'Logout(test)' in rv.data
         rv = self.logout()
-        assert "Login" in rv.data
-        assert "Register" in rv.data
+        assert 'Login' in rv.data
+        assert 'Register' in rv.data
 
     def test_add_project(self):
-        self.login("test", "proverka")
-        csrf_token = self.get_csrf_token("projects/new")
-        name = "New project"
-        description = "This project created for test only."
+        self.login('test', 'proverka')
+        csrf_token = self.get_csrf_token('projects/new')
+        name = 'New project'
+        description = 'This project created for test only.'
         rv = self.add_project(name, description, csrf_token)
         assert name in rv.data
         assert description in rv.data
-        project = Project.objects.get(name=name)
-        project.delete()
 
     def test_add_issue(self):
-        self.login("test", "proverka")
-        project = Project.objects.get(name="Test project")
+        self.login('test', 'proverka')
+        project = Project.objects.get(name='Test project')
         project_id = project.id
         csrf_token = self.get_csrf_token('projects/'+str(project_id))
-        title = "New issue"
-        body = "Test issue (not issue actually, huh?)"
+        title = 'New issue'
+        body = 'Test issue (not issue actually, huh?)'
         rv = self.add_issue(project_id, title, body, csrf_token)
         assert title in rv.data
         assert body in rv.data
-        issue = Issue.objects.get(title=title)
-        issue.delete()
 
     def test_add_comment(self):
-        self.login("test", "proverka")
-        issue = Issue.objects.get(title="Test issue")
+        self.login('test', 'proverka')
+        issue = Issue.objects.get(title='Test issue')
         issue_id = issue.id
-        csrf_token = self.get_csrf_token("projects/issues/"+str(issue_id))
-        body = "Test comment"
+        csrf_token = self.get_csrf_token('projects/issues/'+str(issue_id))
+        body = 'Test comment'
         rv = self.add_comment(issue_id, body, csrf_token)
         assert body in rv.data
-        issue.comments = []
-        issue.save()
 
     def login(self, username, password):
         return self.app.post('/login', 
@@ -118,5 +120,5 @@ class NeobugTestCase(unittest.TestCase):
         html = lxml.html.document_fromstring(rv.data)
         return html.get_element_by_id('csrf_token').value
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
