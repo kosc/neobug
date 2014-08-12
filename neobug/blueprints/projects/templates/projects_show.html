@@ -37,7 +37,7 @@
   {% if session.logged_in %}
     <p>
       Add issue: <br />
-      <form action="/projects/{{ project.id }}" method="POST" class="col-lg-4">
+      <form action="/projects/{{ project.id }}" method="POST" class="col-md-8">
         <input type="hidden" value="{{project.id}}" name="project_id" />
         {{ render_field(form.title) }}
         {{ render_field(form.body) }}

@@ -2,7 +2,7 @@
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
   <h2>Create new page</h2>
-  <form action="/wiki/create" method="POST" class="col-lg-4">
+  <form action="/wiki/create" method="POST" class="col-md-8">
     {{ render_field(form.title) }}
     {{ render_field(form.content) }}
     {{ form.csrf_token }}

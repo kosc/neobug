@@ -2,7 +2,7 @@
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
   {% if session.logged_in %}
-    <form action="/projects/new" method="POST" class="col-lg-4" role="form">
+    <form action="/projects/new" method="POST" class="col-md-8" role="form">
       {{ render_field(form.name, "project name") }}
       {{ render_field(form.description, "description") }}
       {{ form.csrf_token }}
