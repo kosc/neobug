@@ -4,14 +4,14 @@
 <div>
 	{{ issue.title }}
 	<hr />
-	<p>{{ issue.body }}</p>
+	<p>{{ issue.body|safe }}</p>
 </div>
 <div class="comments">
 	{% for comment in issue.comments %}
 		<div class="comment">
 			<span class="author">{{ comment.author }}</span>
 			<span class="created_at">{{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span><br />
-			{{ comment.body }}
+			{{ comment.body|safe }}
 		</div>
 	{% endfor %}
 </div>

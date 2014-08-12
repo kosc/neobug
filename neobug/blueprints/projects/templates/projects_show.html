@@ -3,7 +3,7 @@
 {% block content %}
   <div class="panel panel-default">
     <div class="panel-heading">{{ project.name }}</div>
-    <div class="panel-body">{{ project.description }}</div>
+    <div class="panel-body">{{ project.description|safe }}</div>
   </div>
   {% if issues %}
     {% for issue in issues %}
@@ -25,7 +25,7 @@
             {% endif %}
           </div>
           <div class="panel-body">
-            {{ issue.body }}
+            {{ issue.body|safe }}
           </div>
           <div class="panel-footer">
             Comments: <span class="badge">{{ issue.comments_count }}</span>
