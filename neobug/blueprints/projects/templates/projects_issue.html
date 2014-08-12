@@ -1,19 +1,19 @@
 {% extends "projects_layout.html" %}
 {% from "_formhelpers.html" import render_field %}
 {% block content %}
-<div>
-	{{ issue.title }}
-	<hr />
-	<p>{{ issue.body|safe }}</p>
-</div>
-<div class="comments">
-	{% for comment in issue.comments %}
-		<div class="comment">
-			<span class="author">{{ comment.author }}</span>
-			<span class="created_at">{{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}</span><br />
-			{{ comment.body|safe }}
-		</div>
-	{% endfor %}
+<div class="panel panel-default">
+	<div class="panel-heading">{{ issue.title }}</div>
+	<div class="panel-body">{{ issue.body|safe }}</div>
+  <div class="panel-footer">
+    {% for comment in issue.comments %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{ comment.author }} {{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
+        </div>
+        <div class="panel-body">{{ comment.body|safe }}</div>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 {% if session.logged_in %}
 	Add comment: <br />
