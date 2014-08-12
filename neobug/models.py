@@ -8,6 +8,7 @@ class Project(db.Document):
     name = db.StringField(max_length=255, required=True, unique=True)
     description = db.StringField()
 
+
 class Overview(db.Document):
     content = db.StringField()
 
@@ -29,7 +30,9 @@ class Issue(db.Document):
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
     assigned = db.StringField(max_length=255)
     status = db.StringField(max_length=12, default=statuses[0], required=True)
-    category = db.StringField(max_length=13, default=categories[0], required=True)
+    category = db.StringField(max_length=13,
+                              default=categories[0],
+                              required=True)
 
 
 class User(db.Document):

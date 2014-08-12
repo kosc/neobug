@@ -54,3 +54,7 @@ class IssueView(ModelView):
             }
         }
     }
+
+
+class OverviewView(MyBaseModelView):
+    pass
