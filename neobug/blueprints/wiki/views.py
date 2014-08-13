@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, redirect, request
-from neobug.models import Project
+
 from models import Page
 from forms import PageForm
 
 wiki = Blueprint('wiki', __name__,
                  template_folder='templates')
+
 
 @wiki.route('/')
 def index():
@@ -12,6 +13,7 @@ def index():
     return render_template('wiki_index.html',
                            title="Wiki - main page",
                            pages=pages)
+
 
 @wiki.route('/edit/<string:page_id>', methods=('GET', 'POST'))
 def edit(page_id):
@@ -26,6 +28,7 @@ def edit(page_id):
                            page=page,
                            form=form)
 
+
 @wiki.route('/create', methods=('GET', 'POST'))
 def create():
     page = Page()
@@ -38,6 +41,8 @@ def create():
                            title="Wiki - create new page",
                            page=page,
                            form=form)
+
+
 @wiki.route('/page/<string:page_id>', methods=('GET', 'POST'))
 def page(page_id):
     page = Page.objects.with_id(page_id)

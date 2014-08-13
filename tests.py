@@ -5,6 +5,7 @@ import unittest
 import lxml.html
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
+
 class TestSettings:
     TESTING = True
     MONGODB_SETTINGS = {'DB': 'nbtest'}
@@ -13,6 +14,7 @@ class TestSettings:
 sys.modules['neobug.test.config'] = TestSettings
 from neobug import neobug
 from neobug.models import User, Project, Issue
+
 
 class NeobugTestCase(unittest.TestCase):
 
@@ -30,7 +32,6 @@ class NeobugTestCase(unittest.TestCase):
         issue = Issue.objects.get(title='Test issue')
         issue.comments = []
         issue.save()
-        
 
     def test_register(self):
         csrf_token = self.get_csrf_token('register')
@@ -75,14 +76,14 @@ class NeobugTestCase(unittest.TestCase):
         assert body in rv.data
 
     def login(self, username, password):
-        return self.app.post('/login', 
-                             data=dict(username=username, password=password), 
-                             follow_redirects=True, 
+        return self.app.post('/login',
+                             data=dict(username=username, password=password),
+                             follow_redirects=True,
                              headers={'Referer': '/'})
 
     def logout(self):
         return self.app.get('/logout',
-                            follow_redirects=True, 
+                            follow_redirects=True,
                             headers={'Referer': '/'})
 
     def register(self, username, email, password, csrf_token):
