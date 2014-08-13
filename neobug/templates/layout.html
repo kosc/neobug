@@ -47,11 +47,16 @@
                 {% endblock %}
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                {% block downloads_link %}
+                  <li><a href="/downloads">Downloads</a></li>
+                {% endblock %}
                 {% block projects_link %}
                   <li><a href="/projects">Projects</a></li>
                 {% endblock %}
+                {% block wiki_link %}
+                  <li><a href="/wiki">Wiki</a></li>
+                {% endblock %}
                 {% if session.logged_in %}
-                  {% block wiki_link %}<li><a href="/wiki">Wiki</a></li>{% endblock %}
                   {% if current_user.is_admin %}
                     <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
                   {% endif %}

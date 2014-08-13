@@ -23,8 +23,10 @@ from neobug import views
 
 from blueprints.wiki.views import wiki
 from blueprints.projects.views import projects
+from blueprints.downloads.views import downloads
 neobug.register_blueprint(wiki, url_prefix='/wiki')
 neobug.register_blueprint(projects, url_prefix='/projects')
+neobug.register_blueprint(downloads, url_prefix='/downloads')
 
 
 def init_login():

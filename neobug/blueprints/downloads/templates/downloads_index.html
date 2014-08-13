@@ -1,0 +1,15 @@
+{% extends "downloads_layout.html" %}
+{% block content %}
+  {% for download in downloads_list %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a href="{{ download.url }}">{{ download.title }}</a>
+      </div>
+      <div class="panel-body">
+        {{ download.description|safe }}
+        md5sum: {{ download.md5sum }}<br />
+        sha1sum: {{ download.sha1sum }}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
