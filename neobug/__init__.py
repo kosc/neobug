@@ -5,8 +5,8 @@ from flask.ext.admin import helpers
 from flask.ext.admin.contrib.mongoengine import ModelView
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
-
 neobug = Flask(__name__)
+neobug.config['UPLOAD_FOLDER'] = 'uploads'
 
 if 'neobug.test.config' in sys.modules:
     neobug.config.from_object(sys.modules['neobug.test.config'])

@@ -1,0 +1,15 @@
+{% extends "downloads_layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+  {% if session.logged_in %}
+    <form action="/downloads/new" method="POST" class="col-md-8" enctype="multipart/form-data">
+      {{ render_field(form.title) }}
+      {{ render_field(form.description) }}
+      {{ render_field(form.url) }}
+      {{ form.csrf_token }}
+      <button type="submit" class="btn btn-default">Add download</button>
+    </form>
+  {% else %}
+    You need to <a href="/login">login</a> or <a href="/register">register</a> to create downloads.
+  {% endif %}
+{% endblock %}
