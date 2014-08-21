@@ -16,7 +16,6 @@ downloads = Blueprint('downloads', __name__,
 def index():
     download_list = Download.objects.all()
     return render_template('downloads_index.html',
-                           title='Downloads - main page',
                            download_list=download_list)
 
 
@@ -29,9 +28,9 @@ def downloads_new():
         if f:
             filename = secure_filename(f.filename)
             f.save(os.path.join(neobug.config['UPLOAD_FOLDER'], filename))
+            form.populate_obj(download)
             download.url = 'uploads/' + filename
-        form.populate_obj(download)
-        download.save()
+            download.save()
         return redirect('/downloads')
     return render_template('downloads_new.html',
                            form=form)

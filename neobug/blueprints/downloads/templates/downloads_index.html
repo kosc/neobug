@@ -1,6 +1,9 @@
 {% extends "downloads_layout.html" %}
 {% block content %}
-  {% for download in downloads_list %}
+  {% if session.logged_in %}
+    <a href="/downloads/new">Add download</a>
+  {% endif %}
+  {% for download in download_list %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <a href="{{ download.url }}">{{ download.title }}</a>
