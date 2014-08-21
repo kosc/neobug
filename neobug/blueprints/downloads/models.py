@@ -13,7 +13,7 @@ class Download(db.Document):
     description = db.StringField()
 
     def count_hash_sums(self):
-        f = open(self.url)
+        f = open('neobug/' + self.url)
         self.md5sum = md5(f.read()).hexdigest()
         self.sha1sum = sha(f.read()).hexdigest()
         self.save()

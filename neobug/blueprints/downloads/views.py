@@ -29,7 +29,7 @@ def downloads_new():
             filename = secure_filename(f.filename)
             f.save(os.path.join(neobug.config['UPLOAD_FOLDER'], filename))
             form.populate_obj(download)
-            download.url = 'uploads/' + filename
+            download.url = 'static/uploads/' + filename
             download.save()
         return redirect('/downloads')
     return render_template('downloads_new.html',

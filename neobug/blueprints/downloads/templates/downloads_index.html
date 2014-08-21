@@ -6,7 +6,7 @@
   {% for download in download_list %}
     <div class="panel panel-default">
       <div class="panel-heading">
-        <a href="{{ download.url }}">{{ download.title }}</a>
+        <a href="/{{ download.url }}">{{ download.title }}</a>
       </div>
       <div class="panel-body">
         {{ download.description|safe }}
