@@ -17,7 +17,6 @@ import forms
 def index():
     overview = Overview.objects.first()
     return render_template("index.html",
-                           title="Main page",
                            overview=overview)
 
 

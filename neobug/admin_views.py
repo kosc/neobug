@@ -23,6 +23,10 @@ class UserView(MyBaseModelView):
     form_excluded_columns = ('password_hash', 'password_salt')
 
 
+class DownloadView(MyBaseModelView):
+    pass
+
+
 class ProjectView(MyBaseModelView):
     pass
 
