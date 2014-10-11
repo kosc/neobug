@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, session
+from bson.objectid import ObjectId
 
-from neobug.models import Project, Issue, Comment
+from neobug.models import Project, Issue, Comment, Counter
 
 from forms import IssueForm, ProjectForm, CommentForm
 
@@ -20,7 +21,11 @@ def project_new():
     project = Project()
     form = ProjectForm(request.form, project)
     if form.validate_on_submit():
+        counter = Counter.objects(id_for="project")[0]
+        counter.set_next_id()
+        counter.save()
         form.populate_obj(project)
+        project.number = counter.number
         project.save()
         return redirect('/projects/')
     return render_template('projects_create.html',
@@ -28,10 +33,10 @@ def project_new():
                            form=form)
 
 
-@projects.route('/<string:project_id>', methods=('GET', 'POST'))
-def project_show(project_id):
-    project = Project.objects.with_id(project_id)
-    issues = Issue.objects(project_id=project_id)
+@projects.route('/<string:num>', methods=('GET', 'POST'))
+def project_show(num):
+    project = Project.objects(number=num)[0]
+    issues = Issue.objects(project_id=str(project.id))
     for issue in issues:
         issue.comments_count = len(issue.comments)
     issue = Issue()

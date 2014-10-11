@@ -3,7 +3,17 @@ from flask import url_for
 from neobug import db
 
 
+class Counter(db.Document):
+    id_for = db.StringField(required=True, unique=True)
+    number = db.IntField(default=0, required=True)
+
+    def set_next_id(self):
+        self.number += 1
+        
+
+
 class Project(db.Document):
+    number = db.IntField(default=0)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     name = db.StringField(max_length=255, required=True, unique=True)
     description = db.StringField()
