@@ -58,18 +58,19 @@ class NeobugTestCase(unittest.TestCase):
     def test_add_issue(self):
         self.login('test', 'proverka')
         project = Project.objects.get(name='Test project')
+        project_num = project.number
         project_id = project.id
-        csrf_token = self.get_csrf_token('projects/'+str(project_id))
+        csrf_token = self.get_csrf_token('projects/'+str(project_num))
         title = 'New issue'
         body = 'Test issue (not issue actually, huh?)'
-        rv = self.add_issue(project_id, title, body, csrf_token)
+        rv = self.add_issue(project_num, title, body, csrf_token, project_id)
         assert title in rv.data
         assert body in rv.data
 
     def test_add_comment(self):
         self.login('test', 'proverka')
         issue = Issue.objects.get(title='Test issue')
-        issue_id = issue.id
+        issue_id = issue.number
         csrf_token = self.get_csrf_token('projects/issues/'+str(issue_id))
         body = 'Test comment'
         rv = self.add_comment(issue_id, body, csrf_token)
@@ -102,8 +103,8 @@ class NeobugTestCase(unittest.TestCase):
             csrf_token=csrf_token
         ), follow_redirects=True)
 
-    def add_issue(self, project_id, title, body, csrf_token):
-        return self.app.post('/projects/'+str(project_id), data=dict(
+    def add_issue(self, project_num, title, body, csrf_token, project_id):
+        return self.app.post('/projects/'+str(project_num), data=dict(
             project_id=project_id,
             title=title,
             body=body,

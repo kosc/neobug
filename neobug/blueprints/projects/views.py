@@ -66,7 +66,7 @@ def project_issue(num):
         comment.author = session['user_id']
         issue.comments.append(comment)
         issue.save()
-        return redirect('/projects/issues/' + issue_id)
+        return redirect('/projects/issues/' + num)
     return render_template('projects_issue.html',
                            issue=issue,
                            form=form)
