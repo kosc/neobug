@@ -10,7 +10,8 @@
       {% if issue.status != "Closed" %}
         <div class="panel panel-default">
           <div class="panel-heading">
-            <a href="/projects/issues/{{ issue.id }}">{{ issue.title }}</a> {{ issue.author }}
+            Issue #{{ issue.number}}
+            <a href="/projects/issues/{{ issue.number }}">{{ issue.title }}</a> {{ issue.author }}
             {{ issue.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
             status: {{ issue.status }} / category: {{ issue.category }}
 	    {% if issue.assigned %}
@@ -37,7 +38,7 @@
   {% if session.logged_in %}
     <p>
       Add issue: <br />
-      <form action="/projects/{{ project.id }}" method="POST" class="col-md-8">
+      <form action="/projects/{{ project.number }}" method="POST" class="col-md-8">
         <input type="hidden" value="{{project.id}}" name="project_id" />
         {{ render_field(form.title) }}
         {{ render_field(form.status) }}

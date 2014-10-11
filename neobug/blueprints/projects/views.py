@@ -42,19 +42,23 @@ def project_show(num):
     issue = Issue()
     form = IssueForm(request.form, issue)
     if form.validate_on_submit():
+        counter = Counter.objects(id_for="issue")[0]
+        counter.set_next_id()
+        counter.save()
         form.populate_obj(issue)
+        issue.number = counter.number
         issue.author = session['user_id']
         issue.save()
-        return redirect('/projects/' + issue.project_id)
+        return redirect('/projects/' + str(project.number))
     return render_template('projects_show.html',
                            project=project,
                            issues=issues,
                            form=form)
 
 
-@projects.route('/issues/<string:issue_id>', methods=('GET', 'POST'))
-def project_issue(issue_id):
-    issue = Issue.objects.with_id(issue_id)
+@projects.route('/issues/<string:num>', methods=('GET', 'POST'))
+def project_issue(num):
+    issue = Issue.objects(number=num)[0]
     comment = Comment()
     form = CommentForm(request.form, comment)
     if form.validate_on_submit():
