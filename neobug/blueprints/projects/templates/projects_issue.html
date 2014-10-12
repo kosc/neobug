@@ -4,16 +4,24 @@
 <div class="panel panel-default">
 	<div class="panel-heading">{{ issue.title }}</div>
 	<div class="panel-body">{{ issue.body|safe }}</div>
-  <div class="panel-footer">
-    {% for comment in issue.comments %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          {{ comment.author }} {{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
+  {% if child_issues %}
+    <div class="panel-footer">
+      {% for child_issue in child_issues %}
+        <div class="panel panel-default">
+          <div class="panel-heading">{{ child_issue.title }}</div>
+          <div class="panel-body">{{ child_issue.body|safe }}</div>
         </div>
-        <div class="panel-body">{{ comment.body|safe }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% for comment in issue.comments %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{ comment.author }} {{ comment.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
       </div>
-    {% endfor %}
-  </div>
+      <div class="panel-body">{{ comment.body|safe }}</div>
+    </div>
+  {% endfor %}
 </div>
 {% if session.logged_in %}
 	Add comment: <br />

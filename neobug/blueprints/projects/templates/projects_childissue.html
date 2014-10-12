@@ -1,0 +1,22 @@
+{% extends "projects_layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+  <div class="panel panel-default">
+    <div class="panel-heading">{{ base_issue.title }}</div>
+    <div class="panel-body">{{ base_issue.body|safe }}</div>
+  </div>
+   {% if session.logged_in %}
+    <p>
+      Add child issue for #{{ base_issue.number }}: <br />
+      <form action="/projects/issues/{{ base_issue.number }}/child" method="POST" class="col-md-8">
+        <input type="hidden" value="{{project.id}}" name="project_id" />
+        {{ render_field(form.title) }}
+        {{ render_field(form.status) }}
+        {{ render_field(form.category) }}
+        {{ render_field(form.body) }}
+        {{ form.csrf_token }}
+        <button type="submit" class="btn btn-default">Add Bug</button>
+      </form>
+    </p>
+  {% endif %}
+{% endblock %}

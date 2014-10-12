@@ -7,31 +7,33 @@
   </div>
   {% if issues %}
     {% for issue in issues %}
-      {% if issue.status != "Closed" %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Issue #{{ issue.number}}
-            <a href="/projects/issues/{{ issue.number }}">{{ issue.title }}</a> {{ issue.author }}
-            {{ issue.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
-            status: {{ issue.status }} / category: {{ issue.category }}
-	    {% if issue.assigned %}
-              / assigned to: {{ issue.assigned }}
-	    {% endif %}
-            {% if session.logged_in %}
-              {% if current_user.is_admin(): %}
-                <a href="/admin/issue/edit/?url=%2Fadmin%2Fissue%2F&id={{ issue.id }}">
-                <span class="glyphicon glyphicon-edit"></span>
-                </a>
+      {% if issue.base_issue==0 %}
+        {% if issue.status != "Closed" %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Issue #{{ issue.number}}
+              <a href="/projects/issues/{{ issue.number }}">{{ issue.title }}</a> {{ issue.author }}
+              {{ issue.created_at.strftime("%Y-%m-%d %H:%M:%S") }}
+              status: {{ issue.status }} / category: {{ issue.category }}
+        {% if issue.assigned %}
+                / assigned to: {{ issue.assigned }}
+        {% endif %}
+              {% if session.logged_in %}
+                {% if current_user.is_admin(): %}
+                  <a href="/admin/issue/edit/?url=%2Fadmin%2Fissue%2F&id={{ issue.id }}">
+                  <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+                {% endif %}
               {% endif %}
-            {% endif %}
+            </div>
+            <div class="panel-body">
+              {{ issue.body|safe }}
+            </div>
+            <div class="panel-footer">
+              Comments: <span class="badge">{{ issue.comments_count }}</span>
+            </div>
           </div>
-          <div class="panel-body">
-            {{ issue.body|safe }}
-          </div>
-          <div class="panel-footer">
-            Comments: <span class="badge">{{ issue.comments_count }}</span>
-          </div>
-        </div>
+        {% endif %}
       {% endif %}
     {% endfor %}
   {% endif %}

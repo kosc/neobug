@@ -59,6 +59,7 @@ def project_show(num):
 @projects.route('/issues/<string:num>', methods=('GET', 'POST'))
 def project_issue(num):
     issue = Issue.objects(number=num)[0]
+    child_issues = Issue.objects(base_issue=num)
     comment = Comment()
     form = CommentForm(request.form, comment)
     if form.validate_on_submit():
@@ -69,4 +70,28 @@ def project_issue(num):
         return redirect('/projects/issues/' + num)
     return render_template('projects_issue.html',
                            issue=issue,
+                           child_issues=child_issues,
                            form=form)
+
+
+@projects.route('/issues/<string:num>/child', methods=('GET', 'POST'))
+def projects_childissue(num):
+    base_issue = Issue.objects(number=num)[0]
+    project = Project.objects(id=base_issue.project_id)[0]
+    issue = Issue()
+    form = IssueForm(request.form, issue)
+    if form.validate_on_submit():
+        form.populate_obj(issue)
+        counter = Counter.objects(id_for="issue")[0]
+        counter.set_next_id()
+        counter.save()
+        issue.number = counter.number
+        issue.author = session['user_id']
+        issue.base_issue = num
+        issue.save()
+        return redirect('/issues/' + str(num))
+    return render_template('projects_childissue.html',
+                            project=project,
+                            base_issue=base_issue,
+                            issue=issue,
+                            form=form)

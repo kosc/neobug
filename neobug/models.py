@@ -33,6 +33,7 @@ class Issue(db.Document):
     statuses = ["New", "Rejected", "In progress", "Resolved", "Closed"]
     categories = ["Bug", "Feature", "Patch", "Pull request"]
     number = db.IntField(default=0)
+    base_issue = db.IntField(default=0)
     project_id = db.StringField(max_length=24, min_length=24, required=True)
     created_at = db.DateTimeField(default=datetime.datetime.now, required=True)
     title = db.StringField(max_length=255, required=True)
