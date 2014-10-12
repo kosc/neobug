@@ -89,7 +89,7 @@ def projects_childissue(num):
         issue.author = session['user_id']
         issue.base_issue = num
         issue.save()
-        return redirect('/issues/' + str(num))
+        return redirect('projects/issues/' + str(num))
     return render_template('projects_childissue.html',
                             project=project,
                             base_issue=base_issue,

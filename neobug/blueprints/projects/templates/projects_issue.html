@@ -14,6 +14,7 @@
       {% endfor %}
     </div>
   {% endif %}
+  <a href="/projects/issues/{{ issue.number }}/child">Add child issue</a>
   {% for comment in issue.comments %}
     <div class="panel panel-default">
       <div class="panel-heading">
