@@ -9,7 +9,6 @@ class Counter(db.Document):
 
     def set_next_id(self):
         self.number += 1
-        
 
 
 class Project(db.Document):

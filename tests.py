@@ -5,10 +5,15 @@ import unittest
 import lxml.html
 from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
+from pymongo import read_preferences
+
 
 class TestSettings:
     TESTING = True
-    MONGODB_SETTINGS = {'DB': 'nbtest'}
+    MONGODB_SETTINGS = {
+        'DB': 'nbtest',
+        'read_preference': read_preferences.ReadPreference.PRIMARY
+    }
     SECRET_KEY = 'ProdaiSvoyuZebruKorove'
 
 sys.modules['neobug.test.config'] = TestSettings

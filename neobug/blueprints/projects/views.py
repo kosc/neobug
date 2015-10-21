@@ -21,9 +21,14 @@ def project_new():
     project = Project()
     form = ProjectForm(request.form, project)
     if form.validate_on_submit():
-        counter = Counter.objects(id_for="project")[0]
-        counter.set_next_id()
-        counter.save()
+        if Counter.objects.count() == 0:
+            counter = Counter()
+            counter.id_for = "project"
+            counter.save()
+        else:
+            counter = Counter.objects(id_for="project")[0]
+            counter.set_next_id()
+            counter.save()
         form.populate_obj(project)
         project.number = counter.number
         project.save()
@@ -90,8 +95,9 @@ def projects_childissue(num):
         issue.base_issue = num
         issue.save()
         return redirect('projects/issues/' + str(num))
-    return render_template('projects_childissue.html',
-                            project=project,
-                            base_issue=base_issue,
-                            issue=issue,
-                            form=form)
+    return render_template(
+                'projects_childissue.html',
+                project=project,
+                base_issue=base_issue,
+                issue=issue,
+                form=form)
