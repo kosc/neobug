@@ -33,9 +33,10 @@ INSTALLATION MANUAL:
 4.) Register your account on http://localhost:5000/.
 5.) Make your user administrator:
   Run ./manage.py shell and run:
-	```python
-	from neobug.models import User
-	user = User.objects(username=login)[0] # where login is your user's username from step 4.
-	user.is_admin = True
-	user.save()
-	```
+  
+```python
+from neobug.models import User
+user = User.objects(username=login)[0] # where login is your user's username from step 4.
+user.is_admin = True
+user.save()
+```
