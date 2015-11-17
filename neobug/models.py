@@ -7,6 +7,11 @@ class Counter(db.Document):
     id_for = db.StringField(required=True, unique=True)
     number = db.IntField(default=0, required=True)
 
+    def __init__(self, id_for, number=0, **args):
+        super(Counter, self).__init__(**args)
+        self.number = number
+        self.id_for = id_for
+
     def set_next_id(self):
         self.number += 1
 

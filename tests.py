@@ -39,8 +39,8 @@ class NeobugTestCase(unittest.TestCase):
         issue.save()
 
     def test_register(self):
-        csrf_token = self.get_csrf_token('register')
-        rv = self.register('login', 'test@mail.com', 'proverka', csrf_token)
+        csrf_token = get_csrf_token(self.app, 'register')
+        rv = register(self.app, 'login', 'test@mail.com', 'proverka', csrf_token)
         assert 'login' in rv.data
         assert 'Logout' in rv.data
 
@@ -53,10 +53,10 @@ class NeobugTestCase(unittest.TestCase):
 
     def test_add_project(self):
         self.login('test', 'proverka')
-        csrf_token = self.get_csrf_token('projects/new')
+        csrf_token = get_csrf_token(self.app, 'projects/new')
         name = 'New project'
         description = 'This project created for test only.'
-        rv = self.add_project(name, description, csrf_token)
+        rv = add_project(self.app, name, description, csrf_token)
         assert name in rv.data
         assert description in rv.data
 
@@ -65,10 +65,10 @@ class NeobugTestCase(unittest.TestCase):
         project = Project.objects.get(name='Test project')
         project_num = project.number
         project_id = project.id
-        csrf_token = self.get_csrf_token('projects/'+str(project_num))
+        csrf_token = get_csrf_token(self.app, 'projects/'+str(project_num))
         title = 'New issue'
         body = 'Test issue (not issue actually, huh?)'
-        rv = self.add_issue(project_num, title, body, csrf_token, project_id)
+        rv = add_issue(self.app, project_num, title, body, csrf_token, project_id)
         assert title in rv.data
         assert body in rv.data
 
@@ -76,7 +76,7 @@ class NeobugTestCase(unittest.TestCase):
         self.login('test', 'proverka')
         issue = Issue.objects.get(title='Test issue')
         issue_id = issue.number
-        csrf_token = self.get_csrf_token('projects/issues/'+str(issue_id))
+        csrf_token = get_csrf_token(self.app, 'projects/issues/'+str(issue_id))
         body = 'Test comment'
         rv = self.add_comment(issue_id, body, csrf_token)
         assert body in rv.data
@@ -92,40 +92,58 @@ class NeobugTestCase(unittest.TestCase):
                             follow_redirects=True,
                             headers={'Referer': '/'})
 
-    def register(self, username, email, password, csrf_token):
-        return self.app.post('/register', data=dict(
-            username=username,
-            email=email,
-            password=password,
-            repeat=password,
-            csrf_token=csrf_token
-        ), follow_redirects=True)
-
-    def add_project(self, name, description, csrf_token):
-        return self.app.post('/projects/new', data=dict(
-            name=name,
-            description=description,
-            csrf_token=csrf_token
-        ), follow_redirects=True)
-
-    def add_issue(self, project_num, title, body, csrf_token, project_id):
-        return self.app.post('/projects/'+str(project_num), data=dict(
-            project_id=project_id,
-            title=title,
-            body=body,
-            csrf_token=csrf_token
-        ), follow_redirects=True)
-
     def add_comment(self, issue_id, body, csrf_token):
         return self.app.post('/projects/issues/'+str(issue_id), data=dict(
             body=body,
             csrf_token=csrf_token
         ), follow_redirects=True)
 
-    def get_csrf_token(self, token_for):
-        rv = self.app.get('/' + token_for)
-        html = lxml.html.document_fromstring(rv.data)
-        return html.get_element_by_id('csrf_token').value
+
+def register(app, username, email, password, csrf_token):
+    return app.post('/register', data=dict(
+        username=username,
+        email=email,
+        password=password,
+        repeat=password,
+        csrf_token=csrf_token
+    ), follow_redirects=True)
+
+
+def add_project(app, name, description, csrf_token):
+    return app.post('/projects/new', data=dict(
+        name=name,
+        description=description,
+        csrf_token=csrf_token
+    ), follow_redirects=True)
+
+
+def add_issue(app, project_num, title, body, csrf_token, project_id):
+    return app.post('/projects/'+str(project_num), data=dict(
+        project_id=project_id,
+        title=title,
+        body=body,
+        csrf_token=csrf_token
+    ), follow_redirects=True)
+
+
+def get_csrf_token(app, token_for):
+    rv = app.get('/' + token_for)
+    html = lxml.html.document_fromstring(rv.data)
+    return html.get_element_by_id('csrf_token').value
 
 if __name__ == '__main__':
+    if len(User.objects(username='test')) == 0:
+        """
+        We need to add test user only for first test run
+        """
+        app = neobug.test_client()
+        token = get_csrf_token(app, 'register')
+        register(app, 'test', 'test@mail.com', 'proverka', token)
+        token = get_csrf_token(app, 'projects/new')
+        add_project(app, 'Test project', 'Test project description', token)
+        project = Project.objects(name='Test project')[0]
+        project_num = project.number
+        project_id = project.id
+        token = get_csrf_token(app, 'projects/' + str(project_num))
+        add_issue(app, project_num, 'Test issue', 'Test issue body', token, project_id)
     unittest.main()

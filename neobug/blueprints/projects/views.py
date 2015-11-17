@@ -21,9 +21,8 @@ def project_new():
     project = Project()
     form = ProjectForm(request.form, project)
     if form.validate_on_submit():
-        if Counter.objects.count() == 0:
-            counter = Counter()
-            counter.id_for = "project"
+        if Counter.objects(id_for="project").count() == 0:
+            counter = Counter("project")
             counter.save()
         else:
             counter = Counter.objects(id_for="project")[0]
@@ -47,9 +46,13 @@ def project_show(num):
     issue = Issue()
     form = IssueForm(request.form, issue)
     if form.validate_on_submit():
-        counter = Counter.objects(id_for="issue")[0]
-        counter.set_next_id()
-        counter.save()
+        if Counter.objects(id_for="issue").count() == 0:
+            counter = Counter("issue")
+            counter.save()
+        else:
+            counter = Counter.objects(id_for="issue")[0]
+            counter.set_next_id()
+            counter.save()
         form.populate_obj(issue)
         issue.number = counter.number
         issue.author = session['user_id']
