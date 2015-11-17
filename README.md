@@ -27,11 +27,11 @@ DEPENDENCIES:
 INSTALLATION MANUAL:
 --------------------
 
-1.) Install all dependencies (python dependencies can be install from requirements.txt with pip)
-2.) Clone repo with "git clone https://github.com/kosc/neobug.git"
-3.) Run ./manage.py debug for debug and ./manage.py runserver for common using.
-4.) Register your account on http://localhost:5000/.
-5.) Make your user administrator:
+1. Install all dependencies (python dependencies can be install from requirements.txt with pip)
+2. Clone repo with "git clone https://github.com/kosc/neobug.git"
+3. Run ./manage.py debug for debug and ./manage.py runserver for common using.
+4. Register your account on http://localhost:5000/.
+5. Make your user administrator:
   Run ./manage.py shell and run:
 	```python
 	from neobug.models import User
