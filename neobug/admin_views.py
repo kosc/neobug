@@ -51,11 +51,7 @@ class IssueView(ModelView):
     )
     form_subdocuments = {
         'comments': {
-            'form_subdocuments': {
-                None: {
-                    'form_rules': ('body', 'author', rules.HTML('<hr>'))
-                }
-            }
+            'form_columns': ('body', 'author', rules.HTML('<hr>'))
         }
     }
 

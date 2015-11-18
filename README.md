@@ -5,8 +5,6 @@ Light bugtracker system on flask and mongodb.
 
 TODO:
 -----
-* First of all, we need to move this on python 3.
-	flask-wtf, flask-admin and flask-mongoengine not supported python 3.
 * Add AJAX for forms
 * Typography (FIXME, TODO, WARNING, INFO, etc)
 * Cut (Spoiler)
@@ -22,7 +20,7 @@ DEPENDENCIES:
   * Flask-Admin>=1.0.8
   * Flask-Script>=2.0.5
   * flask-mongoengine>=0.7.0
-* python 2.7.x (until we move project to python 3.x)
+* python >= 3.3
 
 INSTALLATION MANUAL:
 --------------------

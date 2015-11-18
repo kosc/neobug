@@ -8,5 +8,5 @@ CommentForm = model_form(Comment, exclude=['created_at', 'author'])
 
 
 class IssueForm(BaseIssueForm):
-    status = SelectField(choices=zip(Issue.statuses, Issue.statuses))
-    category = SelectField(choices=zip(Issue.categories, Issue.categories))
+    status = SelectField(choices=list(zip(Issue.statuses, Issue.statuses)))
+    category = SelectField(choices=list(zip(Issue.categories, Issue.categories)))

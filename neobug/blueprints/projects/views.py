@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 
 from neobug.models import Project, Issue, Comment, Counter
 
-from forms import IssueForm, ProjectForm, CommentForm
+from neobug.blueprints.projects.forms import IssueForm, ProjectForm, CommentForm
 
 projects = Blueprint('projects', __name__,
                      template_folder='templates')

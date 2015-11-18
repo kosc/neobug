@@ -7,9 +7,9 @@ from flask import (Blueprint, render_template, request, url_for,
 from flask.ext.wtf import Form
 from flask.ext.login import login_user, logout_user, current_user
 
-from neobug import neobug
 from neobug.models import *
-import forms
+from neobug import forms
+from neobug import neobug
 
 
 @neobug.route('/')
@@ -68,8 +68,8 @@ def register():
         if password != password_repeat:
             message = "Password and password repeat must be the same."
             return render_template("register.html", message=message, form=form)
-        salt = uuid4().hex.encode("utf-8")
-        password_hash = sha512(password.encode("utf-8") + salt)
+        salt = uuid4().hex
+        password_hash = sha512((password + salt).encode('utf-8'))
         user.password_hash = password_hash.hexdigest()
         user.email = email
         user.password_salt = salt

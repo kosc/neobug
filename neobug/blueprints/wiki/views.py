@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request
 
-from models import Page
-from forms import PageForm
+from neobug.blueprints.wiki.models import Page
+from neobug.blueprints.wiki.forms import PageForm
 
 wiki = Blueprint('wiki', __name__,
                  template_folder='templates')

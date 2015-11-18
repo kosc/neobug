@@ -45,8 +45,12 @@ class Issue(db.Document):
     author = db.StringField(max_length=255, required=True)
     comments = db.ListField(db.EmbeddedDocumentField(Comment))
     assigned = db.StringField(max_length=255)
-    status = db.StringField(max_length=12, default=statuses[0], required=True)
+    status = db.StringField(max_length=12,
+                            choices=statuses,
+                            default=statuses[0],
+                            required=True)
     category = db.StringField(max_length=13,
+                              choices=categories,
                               default=categories[0],
                               required=True)
 

@@ -26,10 +26,10 @@ from neobug.admin_views import *
 from neobug import views
 
 
-from blueprints.wiki.views import wiki
-from blueprints.projects.views import projects
-from blueprints.downloads.views import downloads
-from blueprints.downloads.models import Download
+from neobug.blueprints.wiki.views import wiki
+from neobug.blueprints.projects.views import projects
+from neobug.blueprints.downloads.views import downloads
+from neobug.blueprints.downloads.models import Download
 neobug.register_blueprint(wiki, url_prefix='/wiki')
 neobug.register_blueprint(projects, url_prefix='/projects')
 neobug.register_blueprint(downloads, url_prefix='/downloads')

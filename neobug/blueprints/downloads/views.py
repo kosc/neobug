@@ -5,8 +5,8 @@ from werkzeug.utils import secure_filename
 
 from neobug import neobug
 
-from models import Download
-from forms import DownloadForm
+from neobug.blueprints.downloads.models import Download
+from neobug.blueprints.downloads.forms import DownloadForm
 
 downloads = Blueprint('downloads', __name__,
                       template_folder='templates')

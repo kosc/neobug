@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 import sys
 import unittest
@@ -28,7 +28,7 @@ class NeobugTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        user = User.objects.get(username='login')
+        user = User.objects(username='login')
         user.delete()
         project = Project.objects.get(name='New project')
         project.delete()
@@ -41,15 +41,15 @@ class NeobugTestCase(unittest.TestCase):
     def test_register(self):
         csrf_token = get_csrf_token(self.app, 'register')
         rv = register(self.app, 'login', 'test@mail.com', 'proverka', csrf_token)
-        assert 'login' in rv.data
-        assert 'Logout' in rv.data
+        assert rv.data.find(b'login') != -1
+        assert rv.data.find(b'Logout') != -1
 
     def test_login_logout(self):
         rv = self.login('test', 'proverka')
-        assert 'Logout(test)' in rv.data
+        assert rv.data.find(b'Logout(test)') != -1
         rv = self.logout()
-        assert 'Login' in rv.data
-        assert 'Register' in rv.data
+        assert rv.data.find(b'Login') != -1
+        assert rv.data.find(b'Register') != -1
 
     def test_add_project(self):
         self.login('test', 'proverka')
@@ -57,8 +57,8 @@ class NeobugTestCase(unittest.TestCase):
         name = 'New project'
         description = 'This project created for test only.'
         rv = add_project(self.app, name, description, csrf_token)
-        assert name in rv.data
-        assert description in rv.data
+        assert rv.data.find(bytes(name.encode('utf-8'))) != -1
+        assert rv.data.find(bytes(description.encode('utf-8'))) != -1
 
     def test_add_issue(self):
         self.login('test', 'proverka')
@@ -69,8 +69,8 @@ class NeobugTestCase(unittest.TestCase):
         title = 'New issue'
         body = 'Test issue (not issue actually, huh?)'
         rv = add_issue(self.app, project_num, title, body, csrf_token, project_id)
-        assert title in rv.data
-        assert body in rv.data
+        assert rv.data.find(bytes(title.encode('utf-8'))) != -1
+        assert rv.data.find(bytes(body.encode('utf-8'))) != -1
 
     def test_add_comment(self):
         self.login('test', 'proverka')
@@ -79,7 +79,7 @@ class NeobugTestCase(unittest.TestCase):
         csrf_token = get_csrf_token(self.app, 'projects/issues/'+str(issue_id))
         body = 'Test comment'
         rv = self.add_comment(issue_id, body, csrf_token)
-        assert body in rv.data
+        assert rv.data.find(bytes(body.encode('utf-8'))) != -1
 
     def login(self, username, password):
         return self.app.post('/login',

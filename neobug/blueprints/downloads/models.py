@@ -1,5 +1,4 @@
-from md5 import md5
-from sha import sha
+import hashlib
 from threading import Thread
 
 from neobug import db
@@ -14,8 +13,8 @@ class Download(db.Document):
 
     def count_hash_sums(self):
         f = open('neobug/' + self.url)
-        self.md5sum = md5(f.read()).hexdigest()
-        self.sha1sum = sha(f.read()).hexdigest()
+        self.md5sum = hashlib.md5(f.read()).hexdigest()
+        self.sha1sum = hashlib.sha1(f.read()).hexdigest()
         self.save()
 
     def save(self, **kwargs):
