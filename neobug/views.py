@@ -4,8 +4,8 @@ from uuid import uuid4
 from flask_pymongo import ObjectId
 from flask import (Blueprint, render_template, request, url_for,
                    redirect, session, g)
-from flask.ext.wtf import Form
-from flask.ext.login import login_user, logout_user, current_user
+from flask_wtf import Form
+from flask_login import login_user, logout_user, current_user
 
 from neobug.models import *
 from neobug import forms

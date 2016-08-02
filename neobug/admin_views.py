@@ -1,7 +1,7 @@
 from wtforms.fields import SelectField
 from flask.ext import login, admin
-from flask.ext.admin.form import rules
-from flask.ext.admin.contrib.mongoengine import ModelView
+from flask_admin.form import rules
+from flask_admin.contrib.mongoengine import ModelView
 
 from neobug.models import Issue, Project
 
