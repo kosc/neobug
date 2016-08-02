@@ -34,7 +34,7 @@ INSTALLATION MANUAL:
   
 ```python
 from neobug.models import User
-user = User.objects(username=login)[0] # where login is your user's username from step 4.
-user.is_admin = True
+user = User.objects(username="login")[0] # where login is your user's username from step 4.
+user.admin = True
 user.save()
 ```
