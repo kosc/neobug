@@ -56,7 +56,7 @@ def logout():
 @neobug.route('/register', methods=('GET', 'POST'))
 def register():
     user = User()
-    form = forms.RegisterForm(request.form, user)
+    form = forms.RegisterForm(request.form)
     if request.method == 'POST':
         if not form.validate_on_submit():
             message = "This username is already taken."
