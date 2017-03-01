@@ -13,6 +13,7 @@ TODO:
 
 DEPENDENCIES:
 -------------
+* lxml (for testing)
 * MongoDB >= 3.0.7
 * Flask>=0.10.1
   * Flask-Login>=0.2.11
