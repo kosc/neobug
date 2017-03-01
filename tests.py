@@ -120,6 +120,8 @@ def add_project(app, name, description, csrf_token):
 def add_issue(app, project_num, title, body, csrf_token, project_id):
     return app.post('/projects/'+str(project_num), data=dict(
         project_id=project_id,
+        status='New',
+        category='Bug',
         title=title,
         body=body,
         csrf_token=csrf_token

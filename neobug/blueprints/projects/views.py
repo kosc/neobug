@@ -44,7 +44,7 @@ def project_show(num):
     for issue in issues:
         issue.comments_count = len(issue.comments)
     issue = Issue()
-    form = IssueForm(request.form, issue)
+    form = IssueForm(request.form)
     if form.validate_on_submit():
         if Counter.objects(id_for="issue").count() == 0:
             counter = Counter("issue")
