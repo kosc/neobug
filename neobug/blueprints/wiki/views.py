@@ -32,7 +32,7 @@ def edit(page_id):
 @wiki.route('/create', methods=('GET', 'POST'))
 def create():
     page = Page()
-    form = PageForm(request.form, page)
+    form = PageForm(request.form)
     if form.validate_on_submit():
         form.populate_obj(page)
         page.save()

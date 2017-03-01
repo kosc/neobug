@@ -22,7 +22,7 @@ def index():
 @downloads.route('/new', methods=('GET', 'POST'))
 def downloads_new():
     download = Download()
-    form = DownloadForm(request.form, download)
+    form = DownloadForm(request.form)
     if form.validate_on_submit():
         f = request.files['url']
         if f:

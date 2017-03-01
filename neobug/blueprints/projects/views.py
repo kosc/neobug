@@ -19,7 +19,7 @@ def index():
 @projects.route('/new', methods=('GET', 'POST'))
 def project_new():
     project = Project()
-    form = ProjectForm(request.form, project)
+    form = ProjectForm(request.form)
     if form.validate_on_submit():
         if Counter.objects(id_for="project").count() == 0:
             counter = Counter("project")
@@ -69,7 +69,7 @@ def project_issue(num):
     issue = Issue.objects(number=num)[0]
     child_issues = Issue.objects(base_issue=num)
     comment = Comment()
-    form = CommentForm(request.form, comment)
+    form = CommentForm(request.form)
     if form.validate_on_submit():
         form.populate_obj(comment)
         comment.author = session['user_id']
@@ -87,7 +87,7 @@ def projects_childissue(num):
     base_issue = Issue.objects(number=num)[0]
     project = Project.objects(id=base_issue.project_id)[0]
     issue = Issue()
-    form = IssueForm(request.form, issue)
+    form = IssueForm(request.form)
     if form.validate_on_submit():
         form.populate_obj(issue)
         counter = Counter.objects(id_for="issue")[0]
