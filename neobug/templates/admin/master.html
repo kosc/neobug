@@ -1,4 +1,12 @@
 {% extends admin_base_template %}
+{% block head %}
+<style>
+textarea {
+  width: 600px !important;
+  height: 400px !important;
+}
+</style>
+{% endblock %}
 {% block brand %}
   <a href="/" class="navbar-brand">neobug</a>
 {% endblock %}
