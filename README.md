@@ -1,7 +1,7 @@
 neobug
 ======
 
-Light bugtracker system on flask and mongodb.
+Light bugtracker system on flask and mongodb. Your can see demo site at [http://neobug.hotkosc.ru](http://neobug.hotkosc.ru)
 
 TODO:
 -----
