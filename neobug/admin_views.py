@@ -1,5 +1,6 @@
 from wtforms.fields import SelectField
-from flask.ext import login, admin
+import flask_admin
+import flask_login
 from flask_admin.form import rules
 from flask_admin.contrib.mongoengine import ModelView
 
@@ -9,13 +10,13 @@ from neobug.models import Issue, Project
 class MyBaseModelView(ModelView):
 
     def is_accessible(self):
-        return login.current_user.is_admin()
+        return flask_login.current_user.is_admin()
 
 
-class MyAdminIndexView(admin.AdminIndexView):
+class MyAdminIndexView(flask_admin.AdminIndexView):
 
     def is_accessible(self):
-        return login.current_user.is_admin()
+        return flask_login.current_user.is_admin()
 
 
 class UserView(MyBaseModelView):

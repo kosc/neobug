@@ -1,9 +1,10 @@
 import sys
 from flask import Flask
-from flask.ext import admin, login
-from flask.ext.admin import helpers
-from flask.ext.admin.contrib.mongoengine import ModelView
-from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
+import flask_admin
+import flask_login
+from flask_admin import helpers
+from flask_admin.contrib.mongoengine import ModelView
+from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 
 from pymongo import read_preferences
 
@@ -36,7 +37,7 @@ neobug.register_blueprint(downloads, url_prefix='/downloads')
 
 
 def init_login():
-    login_manager = login.LoginManager()
+    login_manager = flask_login.LoginManager()
     login_manager.init_app(neobug)
 
     @login_manager.user_loader
@@ -45,7 +46,7 @@ def init_login():
 
 init_login()
 
-admin = admin.Admin(neobug, 'neobug', index_view=MyAdminIndexView())
+admin = flask_admin.Admin(neobug, 'neobug', index_view=MyAdminIndexView())
 admin.add_view(UserView(User))
 admin.add_view(ProjectView(Project))
 admin.add_view(IssueView(Issue))

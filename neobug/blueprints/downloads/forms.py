@@ -1,4 +1,4 @@
-from flask.ext.mongoengine.wtf import model_form
+from flask_mongoengine.wtf import model_form
 from wtforms.fields import *
 
 from neobug.blueprints.downloads.models import Download
