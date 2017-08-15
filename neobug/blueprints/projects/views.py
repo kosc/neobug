@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect, request, session
-from bson.objectid import ObjectId
 
 from neobug.models import Project, Issue, Comment, Counter
 

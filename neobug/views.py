@@ -1,11 +1,9 @@
 from hashlib import sha512
 from uuid import uuid4
 
-from flask_pymongo import ObjectId
-from flask import (Blueprint, render_template, request, url_for,
+from flask import (render_template, request, url_for,
                    redirect, session, g)
-from flask_wtf import Form
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user
 
 from neobug.models import *
 from neobug import forms
@@ -41,7 +39,6 @@ def login():
         else:
             return render_template("login.html",
                                    message="Incorrect password")
-    model = User()
     return render_template("login.html")
 
 

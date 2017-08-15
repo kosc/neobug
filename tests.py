@@ -3,7 +3,6 @@
 import sys
 import unittest
 import lxml.html
-from flask.ext.mongoengine import MongoEngine, MongoEngineSessionInterface
 
 from pymongo import read_preferences
 
