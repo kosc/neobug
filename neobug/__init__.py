@@ -55,4 +55,4 @@ admin.add_view(OverviewView(Overview))
 admin.add_view(DownloadView(Download))
 
 if __name__ == "__main__":
-    neobug.run(host='0.0.0.0')
+    neobug.run()
