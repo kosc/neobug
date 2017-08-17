@@ -15,6 +15,7 @@ if 'neobug.test.config' in sys.modules:
     neobug.config.from_object(sys.modules['neobug.test.config'])
 else:
     neobug.config['MONGODB_SETTINGS'] = {
+        'host': 'db',
         'db': 'neobug',
         'read_preference': read_preferences.ReadPreference.PRIMARY
     }
@@ -54,4 +55,4 @@ admin.add_view(OverviewView(Overview))
 admin.add_view(DownloadView(Download))
 
 if __name__ == "__main__":
-    neobug.run()
+    neobug.run(host='0.0.0.0')

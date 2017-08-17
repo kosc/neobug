@@ -1,0 +1,38 @@
+version: "2"
+services:
+
+    neobug:
+        build: 
+            context: .
+            dockerfile: dockerfiles/neobug.Dockerfile
+        expose:
+          - "5000"
+        restart: unless-stopped
+        links:
+          - db
+        depends_on:
+          - db
+        volumes:
+          - ./:/usr/src/neobug
+        command: uwsgi --socket 0.0.0.0:5000 --chdir /usr/src/neobug --module neobug:neobug
+
+    nginx:
+        image: nginx:1.13.3
+        ports:
+          - "80:80"
+        volumes:
+          - ./nginx:/etc/nginx/conf.d
+        depends_on:
+          - neobug
+        links:
+          - neobug:uwsgi
+
+    db:
+        image: mongo:3.0
+        expose:
+          - "27017"
+        volumes:
+          - ./data:/data/db
+
+
+
