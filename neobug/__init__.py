@@ -15,6 +15,7 @@ if 'neobug.test.config' in sys.modules:
     neobug.config.from_object(sys.modules['neobug.test.config'])
 else:
     neobug.config['MONGODB_SETTINGS'] = {
+        'host': 'db',
         'db': 'neobug',
         'read_preference': read_preferences.ReadPreference.PRIMARY
     }
