@@ -7,6 +7,7 @@ from flask_admin.contrib.mongoengine import ModelView
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 
 from pymongo import read_preferences
+from .local_settings import *
 
 neobug = Flask(__name__)
 neobug.config['UPLOAD_FOLDER'] = 'neobug/static/uploads'
@@ -15,11 +16,11 @@ if 'neobug.test.config' in sys.modules:
     neobug.config.from_object(sys.modules['neobug.test.config'])
 else:
     neobug.config['MONGODB_SETTINGS'] = {
-        'host': 'db',
-        'db': 'neobug',
+        'host': DB_HOSTNAME,
+        'db': DB_NAME,
         'read_preference': read_preferences.ReadPreference.PRIMARY
     }
-    neobug.config['SECRET_KEY'] = 'KupiKotaZaStoBaksov'
+    neobug.config['SECRET_KEY'] = SECRET_KEY
 
 db = MongoEngine(neobug)
 neobug.session_interface = MongoEngineSessionInterface(db)
