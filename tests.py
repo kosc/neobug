@@ -5,15 +5,16 @@ import unittest
 import lxml.html
 
 from pymongo import read_preferences
+from neobug.local_settings import *
 
 
 class TestSettings:
     TESTING = True
     MONGODB_SETTINGS = {
-        'DB': 'nbtest',
+        'host': DB_HOSTNAME,
+        'DB': DB_TEST_NAME,
         'read_preference': read_preferences.ReadPreference.PRIMARY
     }
-    SECRET_KEY = 'ProdaiSvoyuZebruKorove'
 
 sys.modules['neobug.test.config'] = TestSettings
 from neobug import neobug
