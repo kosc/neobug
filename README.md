@@ -28,9 +28,16 @@ INSTALLATION MANUAL:
 
 1. Clone repo with "git clone https://github.com/kosc/neobug.git"
 2. Install all dependencies (python dependencies can be install from requirements.txt with pip)
-3. Run ./manage.py debug for debug and ./manage.py runserver for common using.
-4. Register your account on http://localhost:5000/.
-5. Make your user administrator:
+3. Create a `neobug/local_settings.py` by this example:
+```
+DB_HOSTNAME = 'db' # Your database host, 127.0.0.1 if db running on same server
+DB_NAME = 'neobug'
+
+SECRET_KEY = 'ZaikaDropnulTable'
+```
+4. Run ./manage.py debug for debug and ./manage.py runserver for common using.
+5. Register your account on http://localhost:5000/.
+6. Make your user administrator:
   Run ./manage.py shell and run:
   
 ```python
