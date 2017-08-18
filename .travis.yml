@@ -22,7 +22,7 @@ before_script:
   - docker-compose up --build -d
 
 script:
-  - docker exec neobug_neobug_1 python tests.py
+  - docker exec neobug_neobug_1 python /usr/src/neobug/tests.py
 
 after_script:
   - docker-compose down
