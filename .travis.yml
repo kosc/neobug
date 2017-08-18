@@ -14,13 +14,13 @@ install:
   - >
     sudo apt-get -o Dpkg::Options::="--force-confdef" \
      -o Dpkg::Options::="--force-confold" --assume-yes install --allow-unauthenticated docker-engine
-  - mv /usr/src/neobug/.travis.local_settings.py /usr/src/neobug/neobug/local_settings.py 
   - docker version
   - sudo pip install docker-compose
   - docker-compose version
 
 before_script:
   - docker-compose up --build -d
+  - docker exec neobug_neobug_1 mv /usr/src/neobug/.travis.local_settings.py /usr/src/neobug/neobug/local_settings.py 
 
 script:
   - docker exec neobug_neobug_1 python /usr/src/neobug/tests.py
