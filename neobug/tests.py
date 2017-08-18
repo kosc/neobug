@@ -5,7 +5,7 @@ import unittest
 import lxml.html
 
 from pymongo import read_preferences
-from .local_settings import *
+from local_settings import *
 
 
 class TestSettings:
