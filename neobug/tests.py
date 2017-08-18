@@ -11,7 +11,7 @@ from .local_settings import *
 class TestSettings:
     TESTING = True
     MONGODB_SETTINGS = {
-        'host': DB_HOSTNAME
+        'host': DB_HOSTNAME,
         'DB': DB_TEST_NAME,
         'read_preference': read_preferences.ReadPreference.PRIMARY
     }
