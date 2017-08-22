@@ -135,9 +135,7 @@ def get_csrf_token(app, token_for):
 
 if __name__ == '__main__':
     if len(User.objects(username='test')) == 0:
-        """
-        We need to add test user only for first test run
-        """
+        """We need to add test user only for first test run"""
         app = neobug.test_client()
         token = get_csrf_token(app, 'register')
         register(app, 'test', 'test@mail.com', 'proverka', token)
